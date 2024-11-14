@@ -1,3 +1,5 @@
+{{-- Navbar Before Login --}}
+
 <nav class="fixed w-screen border bg-frost-white border-spacing-1 border-slate-300" x-data="{ isOpen: false }">
   <div class="max-w-full px-4 py-2 mx-auto sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
@@ -62,12 +64,8 @@
             </x-button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
   </div>
-
-  <!-- Mobile menu, show/hide based on menu state. -->
-
 </nav>
