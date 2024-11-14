@@ -18,3 +18,17 @@
 
 [Docs](https://docs.google.com/document/d/1f8KrL0arZkqkH0Ld_BmghPgcnR2ETCjnC1kbYTPyUug/edit?tab=t.0#heading=h.xn4x6kpdjexv)
 [Figma](https://www.figma.com/design/Uj2z0NF7w1FQIK23I6qXge/OLM-Website?node-id=0-1&node-type=canvas&t=un7K5ksHVphYRQz3-0)
+
+### Button Components
+
+<!-- Tombol ukuran medium dengan warna primary -->
+
+```shell
+<x-button size="md" color="primary">Primary Button</x-button>
+```
+
+<!-- Tombol submit dengan warna secondary -->
+
+```shell
+<x-button type="submit" color="secondary">Submit Button</x-button>
+```
