@@ -11,15 +11,18 @@ class Button extends Component
     public $color;
     public $class;
 
+    public $onclick;
+
     /**
      * Buat instance komponen baru
      */
-    public function __construct($type = 'button', $size = 'md', $color = 'primary', $class = '')
+    public function __construct($type = 'button', $size = 'md', $color = 'primary', $class = '', $onclick = 'window.location.reload()')
     {
         $this->type = $type;
         $this->size = $size;
         $this->color = $color;
         $this->class = $class;
+        $this->onclick = $onclick;
     }
 
     /**
