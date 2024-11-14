@@ -1,1 +1,1 @@
-<x-layout></x-layout>
+<x-layout-container></x-layout-container>
