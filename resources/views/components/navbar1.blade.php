@@ -15,11 +15,13 @@
       </div>
       <div class="hidden md:block">
         <div class="flex items-center ml-4 gap-x-2 md:ml-6">
-          <x-button size="md" color="primary" class="flex items-center gap-2">
+          <x-button type="button" onclick="window.location.href = '/login'" size="md" color="primary"
+            class="flex items-center gap-2">
             <img src="{{ asset('img/Arrow_Right_rectangle_v1.svg') }}" alt="Arrow_Right_rectangle_v1">
             <p class="text-xl">Masuk</p>
           </x-button>
-          <x-button size="md" color="secondary" class="flex items-center gap-2">
+          <x-button type="button" size="md" color="secondary" onclick="window.location.href = '/register'"
+            class="flex items-center gap-2">
             <img src="{{ asset('img/Arrow_Right_rectangle_v2.svg') }}" alt="Arrow_Right_rectangle_v2">
             <p class="text-xl">Daftar</p>
           </x-button>
@@ -54,11 +56,13 @@
             <x-nav-link href="/properti" :active="request()->is('properti')">Properti</x-nav-link>
           </div>
           <div class="flex flex-col gap-2 p-4">
-            <x-button size="md" color="primary" class="flex items-center w-full gap-2">
+            <x-button type="button" size="md" color="primary" onclick="window.location.href = '/login'"
+              class="flex items-center w-full gap-2">
               <img src="{{ asset('img/Arrow_Right_rectangle_v1.svg') }}" alt="Arrow_Right_rectangle_v1">
               <p class="text-xl">Masuk</p>
             </x-button>
-            <x-button size="md" color="secondary" class="flex items-center w-full gap-2">
+            <x-button type="button" size="md" color="secondary" onclick="window.location.href = '/register'"
+              class="flex items-center w-full gap-2">
               <img src="{{ asset('img/Arrow_Right_rectangle_v2.svg') }}" alt="Arrow_Right_rectangle_v2">
               <p class="text-xl">Daftar</p>
             </x-button>
