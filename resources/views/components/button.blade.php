@@ -15,6 +15,7 @@
   $colorClass = $colors[$color] ?? $colors['primary'];
 @endphp
 
-<button type="{{ $type }}" class="rounded-[8px] {{ $sizeClass }} {{ $colorClass }} {{ $class }}">
+<button type="{{ $type }}" onclick="{{ $onclick }}"
+  class="rounded-[8px] {{ $sizeClass }} {{ $colorClass }} {{ $class }}">
   {{ $slot }}
 </button>
