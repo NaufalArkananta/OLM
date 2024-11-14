@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-gray-100">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-white scroll-smooth">
 
 <head>
   <meta charset="utf-8">
@@ -12,11 +12,8 @@
 
 <body class="h-full">
   <div class="min-h-full">
-    <x-navbar></x-navbar>
     <main>
-      <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {{ $slot }}
-      </div>
+      {{ $slot }}
     </main>
   </div>
 </body>
