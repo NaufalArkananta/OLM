@@ -24,7 +24,6 @@ class User extends Authenticatable
         'password',
         'role',
         'phone_number',
-        
     ];
 
     /**
@@ -48,5 +47,35 @@ class User extends Authenticatable
             // 'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function is_role($role)
+    {
+        return $this->role === $role;
+    }
+
+    public function property()
+    {
+        return $this->hasMany(Property::class);
+    }
+
+    public function validator()
+    {
+        return $this->hasMany(PropertyValidation::class, ' id', 'validator_id');
+    }
+
+    public function commision()
+    {
+        return $this->hasMany(Commisions::class, 'id', 'agent_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(notifications::class);
+    }
+
+    public function whishlist()
+    {
+        return $this->hasMany(Wishlist::class);
     }
 }
