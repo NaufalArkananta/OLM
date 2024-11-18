@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                sans: ["Poppins", ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 "sky-50": "#f0f9ff",
@@ -31,6 +31,7 @@ export default {
                     50: "rgba(3, 105, 161, 0.1)",
                     100: "rgba(3, 105, 161, 0.2)",
                     200: "rgba(3, 105, 161, 0.3)",
+                    250: "rgba(3, 105, 161, 0.25)",
                     300: "rgba(3, 105, 161, 0.4)",
                     400: "rgba(3, 105, 161, 0.5)",
                     500: "rgba(3, 105, 161, 0.6)",

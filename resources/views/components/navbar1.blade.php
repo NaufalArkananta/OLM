@@ -1,6 +1,6 @@
 {{-- Navbar Before Login --}}
 
-<nav class="fixed w-screen border bg-frost-white border-spacing-1 border-slate-300" x-data="{ isOpen: false }">
+<nav class="fixed z-50 w-screen border bg-frost-white border-spacing-1 border-slate-300" x-data="{ isOpen: false }">
   <div class="max-w-full px-4 py-2 mx-auto sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
@@ -49,7 +49,7 @@
           x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
           x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100"
           x-transition:leave-end="opacity-0 scale-95"
-          class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg top-20" id="mobile-menu">
+          class="absolute right-0 w-full mt-2 origin-top-right bg-white rounded-md shadow-lg top-20 " id="mobile-menu">
           <div class="flex flex-col px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <x-nav-link href="/" :active="request()->is('/')">Beranda</x-nav-link>
             <x-nav-link href="/panduan" :active="request()->is('panduan')">Panduan</x-nav-link>
