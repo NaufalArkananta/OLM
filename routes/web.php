@@ -23,3 +23,12 @@ Route::get('/profile', function () {
 Route::get('/properti', function () {
     return view('properti');
 });
+Route::get('/admin/owner/dashboard', function () {
+    return view(view: 'admin/owner/dashboard');
+});
+Route::get('/admin/validator/dashboard', function () {
+    return view(view: 'admin/validator/dashboard');
+});
+Route::get('/admin/agen/dashboard', function () {
+    return view(view: 'admin/agen/dashboard');
+});
