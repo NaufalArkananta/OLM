@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('property_owner_name', 100);
             $table->string('property_owner_number_phone', 15);
             $table->string('title', 100);
-            $table->string('category_id');
+            $table->foreignId('category_id')->constrained('property_categories');
             $table->text('description');
             $table->decimal('price', 15, 2);
             $table->string('location', 255);
