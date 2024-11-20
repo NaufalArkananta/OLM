@@ -1,6 +1,6 @@
 <div class="max-w-full">
   <footer class="border bg-frost-white border-slate-300">
-    <div class="w-full max-w-screen-xl p-4 py-6 mx-auto lg:py-8">
+    <div class="w-full p-4 py-6 mx-auto max-w-screen-2xl lg:py-8">
       <div class="md:flex md:justify-between">
         <div class="mb-6 md:mb-0 lg:max-w-sm">
           <a href="/" class="flex items-center">

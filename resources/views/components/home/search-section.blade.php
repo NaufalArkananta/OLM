@@ -1,8 +1,9 @@
 <div class="pt-[152px] my-10 bg-sky-600 pb-14 w-full max-w-full">
-  <div class="w-full max-w-full px-4 mx-auto lg:max-w-7xl sm:px-6 lg:px-8">
-    <div class="flex items-center w-fit gap-2 p-3 mx-auto lg:mx-px bg-white rounded-[10px] shadow-Shadow/Shadow 3">
-      <x-button size="lg" color="secondary" type="button" class="px-16">Beli</x-button>
-      <x-button size="lg" color="secondary" type="button" class="px-16">Sewa</x-button>
+  <div class="w-full max-w-full px-4 mx-auto lg:max-w-screen-2xl sm:px-6 lg:px-8">
+    <div
+      class="flex items-center w-full lg:w-fit gap-2 p-3 mx-auto lg:mx-px bg-white rounded-[10px] shadow-Shadow/Shadow 3">
+      <x-button size="lg" color="secondary" type="button" class="w-full lg:w-auto lg:px-20">Beli</x-button>
+      <x-button size="lg" color="secondary" type="button" class="w-full lg:w-auto lg:px-20">Sewa</x-button>
     </div>
     <div
       class="w-full space-y-4 lg:space-y-0 lg:flex flex-row p-4 gap-x-3 bg-white rounded-[10px] shadow-Shadow/Shadow 3 my-3">
