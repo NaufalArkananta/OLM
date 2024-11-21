@@ -40,6 +40,7 @@ export default {
                     800: "rgba(3, 105, 161, 0.9)",
                     900: "rgba(3, 105, 161, 1)",
                 },
+                success: "#22C55E",
             },
             fontSize: {
                 base: "0.75rem",

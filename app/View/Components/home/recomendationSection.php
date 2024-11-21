@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\View\Components\home;
 
@@ -8,12 +8,15 @@ use Illuminate\View\Component;
 
 class recomendationSection extends Component
 {
+    public $recomendation_property;
+
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(array $recomendation_property = [])
     {
-        //
+        $this->recomendation_property = $recomendation_property;
     }
 
     /**
@@ -24,3 +27,6 @@ class recomendationSection extends Component
         return view('components.home.recomendation-section');
     }
 }
+
+
+?>
