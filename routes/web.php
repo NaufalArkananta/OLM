@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\propertiController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +11,9 @@ Route::get('/login', function () {
     return view('login');
 });
 Route::get('/admin/login', function () {
+    return view('admin/login');
+});
+Route::get('/admin', function () {
     return view('admin/login');
 });
 Route::get('/register', function () {
@@ -32,3 +37,6 @@ Route::get('/admin/validator/dashboard', function () {
 Route::get('/admin/agen/dashboard', function () {
     return view(view: 'admin/agen/dashboard');
 });
+
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/properti', [propertiController::class, 'index']);
