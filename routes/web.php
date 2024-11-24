@@ -25,6 +25,9 @@ Route::get('/verification', function () {
 Route::get('/profile', function () {
     return view('profile');
 });
+Route::get('/wishlist', function () {
+    return view('wishlist');
+});
 Route::get('/properti', function () {
     return view('properti');
 });
@@ -40,3 +43,5 @@ Route::get('/admin/agen/dashboard', function () {
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/properti', [propertiController::class, 'index']);
+Route::get('/wishlist', [propertiController::class, 'wishlist']);
+Route::get('/properti/{id}', [propertiController::class, 'detail'])->name('properti.detail');

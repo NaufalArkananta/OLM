@@ -48,7 +48,8 @@
                   </svg>
                   <p class="text-[14px] text-slate-950">Pengaturan Akun</p>
                 </x-button>
-                <x-button size="md" color="white" class="flex items-center w-full gap-2 mt-2">
+                <x-button onclick="window.location.href = '/wishlist'" size="md" color="white"
+                  class="flex items-center w-full gap-2 mt-2">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -135,7 +136,8 @@
 
                     <p class="text-lg text-slate-950">Pengaturan Akun</p>
                   </x-button>
-                  <x-button size="md" color="white" class="flex items-center w-full gap-2 mt-2">
+                  <x-button onclick="window.location.href = '/wishlist'" size="md" color="white"
+                    class="flex items-center w-full gap-2 mt-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd"
