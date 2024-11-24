@@ -2,80 +2,33 @@
   <section class="px-6 pt-20 pb-6 mx-auto mb-10 max-w-screen-2xl lg:px-8">
     <div class="grid w-full grid-cols-1 gap-8 my-6 md:grid-cols-2">
       <div>
-        <div x-data="{ isOn: false }"
-          class="p-4 bg-frost-white rounded-[10px] border border-slate-300 relative w-full shadow-Shadow/Shadow 3">
+        <div class="p-4 bg-frost-white rounded-[10px] border border-slate-300 relative w-full shadow-Shadow/Shadow 3">
           <img src="{{ asset('img/villa-dummy.jpg') }}"
-            class="object-cover w-full h-[210px] rounded-[8px] border border-slate-300" alt="{{ $property['name'] }}">
-          <div class="rounded-[8px] bg-customBlue-250 px-3 py-2 my-3 w-fit">
-            <p class="text-xl font-medium text-sky-400">{{ $property['type'] }}</p>
+            class="object-cover w-full h-[268px] rounded-[8px] border border-slate-300" alt="{{ $property['name'] }}">
+          <div class="grid grid-cols-3 gap-4 my-4">
+            <img src="{{ asset('img/villa-dummy.jpg') }}"
+              class="object-cover w-full h-[80px] md:h-[100px] lg:h-[120px] rounded-[8px] border border-slate-300"
+              alt="{{ $property['name'] }}">
+            <img src="{{ asset('img/villa-dummy.jpg') }}"
+              class="object-cover w-full h-[80px] md:h-[100px] lg:h-[120px] rounded-[8px] border border-slate-300"
+              alt="{{ $property['name'] }}">
+            <img src="{{ asset('img/villa-dummy.jpg') }}"
+              class="object-cover w-full h-[80px] md:h-[100px] lg:h-[120px] rounded-[8px] border border-slate-300"
+              alt="{{ $property['name'] }}">
+          </div>
+          <div class="flex gap-x-2">
+            <div class="rounded-[8px] bg-customBlue-250 px-3 py-2 my-3 w-20 flex justify-center">
+              <p class="font-medium mtext-xl text-sky-400">{{ $property['type'] }}</p>
+            </div>
+            <div class="rounded-[8px] bg-slate-300 px-3 py-2 my-3 w-20 flex justify-center">
+              <p class="text-xl font-medium text-slate-600">Beli</p>
+            </div>
           </div>
           <div class="text-start">
             <h5 class="my-2 text-5xl font-semibold text-sky-600">{{ $property['price'] }}</h5>
             <p class="text-3xl font-normal text-slate-400">{{ $property['name'] }}</p>
             <p class="text-xl font-normal text-slate-400">{{ $property['location'] }}</p>
           </div>
-          <button @click="isOn = !isOn" class="absolute p-2 rounded-md top-6 right-6 backdrop-blur-sm bg-white/30">
-            <svg x-show="!isOn" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M4 6C4 3.79086 5.79086 2 8 2H16C18.2091 2 20 3.79086 20 6V20.0568C20 21.6836 18.1613 22.6298 16.8375 21.6843L12 18.2289L7.16248 21.6843C5.83874 22.6298 4 21.6836 4 20.0568V6ZM8 4C6.89543 4 6 4.89543 6 6V20.0568L10.8375 16.6014C11.5329 16.1047 12.4671 16.1047 13.1625 16.6014L18 20.0568V6C18 4.89543 17.1046 4 16 4H8Z"
-                fill="#121212" />
-            </svg>
-            <svg x-show="isOn" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-              version="1.1" width="24" height="24" viewBox="0 0 1080 1080" xml:space="preserve">
-              <desc>Created with Fabric.js 5.2.4</desc>
-              <defs>
-              </defs>
-              <rect x="0" y="0" width="100%" height="100%" fill="transparent"></rect>
-              <g transform="matrix(1 0 0 1 540 540)" id="528c9fbf-f05c-4255-a13c-76f0d9fb7386">
-                <rect
-                  style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; visibility: hidden;"
-                  vector-effect="non-scaling-stroke" x="-540" y="-540" rx="0" ry="0" width="1080"
-                  height="1080" />
-              </g>
-              <g transform="matrix(1 0 0 1 540 540)" id="7acf1abe-92a0-408c-9c3a-9aa479d38607">
-              </g>
-              <g transform="matrix(45 0 0 45 540 540)">
-                <path
-                  style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(12,74,110); fill-rule: evenodd; opacity: 1;"
-                  transform=" translate(-12, -12.03)"
-                  d="M 4 6 C 4 3.79086 5.79086 2 8 2 L 16 2 C 18.2091 2 20 3.79086 20 6 L 20 20.0568 C 20 21.6836 18.1613 22.6298 16.8375 21.6843 L 12 18.2289 L 7.16248 21.6843 C 5.83874 22.6298 4 21.6836 4 20.0568 L 4 6 Z M 8 4 C 6.89543 4 6 4.89543 6 6 L 6 20.0568 L 10.8375 16.6014 C 11.5329 16.1047 12.4671 16.1047 13.1625 16.6014 L 18 20.0568 L 18 6 C 18 4.89543 17.1046 4 16 4 L 8 4 Z"
-                  stroke-linecap="round" />
-              </g>
-              <g transform="matrix(0 0 0 0 0 0)">
-                <g style="">
-                </g>
-              </g>
-              <g transform="matrix(8.79 0 0 9.18 542.32 469.55)" id="ec544009-daba-40e8-b526-94c20ef1c372">
-                <rect
-                  style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(12,74,110); fill-rule: nonzero; opacity: 1;"
-                  vector-effect="non-scaling-stroke" x="-33.085" y="-33.085" rx="0" ry="0"
-                  width="66.17" height="66.17" />
-              </g>
-              <g transform="matrix(0 0 0 0 0 0)">
-                <g style="">
-                </g>
-              </g>
-              <g transform="matrix(-3.63 -0.45 0.41 -3.31 719.93 788.7)" id="dac27e73-bde9-47dc-8e85-609f39240241">
-                <polygon
-                  style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(12,74,110); fill-rule: nonzero; opacity: 1;"
-                  vector-effect="non-scaling-stroke" points="-30.68,-37.41 30.68,0 -30.68,37.41 " />
-              </g>
-              <g transform="matrix(NaN NaN NaN NaN 0 0)">
-                <g style="">
-                </g>
-              </g>
-              <g transform="matrix(NaN NaN NaN NaN 0 0)">
-                <g style="">
-                </g>
-              </g>
-              <g transform="matrix(3.88 0 0 3.55 372.43 782.94)">
-                <polygon
-                  style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(12,74,110); fill-rule: nonzero; opacity: 1;"
-                  vector-effect="non-scaling-stroke" points="-30.68,-37.41 30.68,0 -30.68,37.41 " />
-              </g>
-            </svg>
-          </button>
           <div class="my-4 bg-slate-300 w-full h-0.5"></div>
           <div class="flex items-center w-full gap-4">
             <div class="w-[48px] h-[48px] overflow-hidden border rounded-full border-slate-300">
@@ -92,6 +45,30 @@
             <img src="{{ asset('img/WhatsApp.svg') }}" alt="whatsapp logo" class="size-[28px]">
             <p class="text-xl font-medium"><a href="https://wa.me/"></a>{{ $property['sales_phone'] }}</p>
           </button>
+          <div class="flex justify-center w-full gap-4 mt-6">
+            <button class="flex items-center justify-center w-full gap-3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M4 6C4 3.79086 5.79086 2 8 2H16C18.2091 2 20 3.79086 20 6V20.0568C20 21.6836 18.1613 22.6298 16.8375 21.6843L12 18.2289L7.16248 21.6843C5.83874 22.6298 4 21.6836 4 20.0568V6ZM8 4C6.89543 4 6 4.89543 6 6V20.0568L10.8375 16.6014C11.5329 16.1047 12.4671 16.1047 13.1625 16.6014L18 20.0568V6C18 4.89543 17.1046 4 16 4H8Z"
+                  fill="#121212" />
+              </svg>
+              <p class="text-xl font-medium text-slate-950">Simpan ke Wishlist</p>
+            </button>
+            <button class="flex items-center justify-center w-full gap-3">
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M11.5429 2.29289C11.9334 1.90237 12.5666 1.90237 12.9571 2.29289L16.9571 6.29289C17.3476 6.68342 17.3476 7.31658 16.9571 7.70711C16.5666 8.09763 15.9334 8.09763 15.5429 7.70711L12.25 4.41421L8.95711 7.70711C8.56658 8.09763 7.93342 8.09763 7.54289 7.70711C7.15237 7.31658 7.15237 6.68342 7.54289 6.29289L11.5429 2.29289Z"
+                  fill="#020617" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M12.25 2C12.8023 2 13.25 2.44772 13.25 3V15C13.25 15.5523 12.8023 16 12.25 16C11.6977 16 11.25 15.5523 11.25 15V3C11.25 2.44772 11.6977 2 12.25 2Z"
+                  fill="#020617" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M5.25 12C5.80228 12 6.25 12.4477 6.25 13V18C6.25 19.1046 7.14543 20 8.25 20H16.25C17.3546 20 18.25 19.1046 18.25 18V13C18.25 12.4477 18.6977 12 19.25 12C19.8023 12 20.25 12.4477 20.25 13V18C20.25 20.2091 18.4591 22 16.25 22H8.25C6.04086 22 4.25 20.2091 4.25 18V13C4.25 12.4477 4.69772 12 5.25 12Z"
+                  fill="#020617" />
+              </svg>
+              <p class="text-xl font-medium text-slate-950">Share</p>
+            </button>
+          </div>
         </div>
       </div>
       <div>
