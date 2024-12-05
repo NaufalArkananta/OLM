@@ -13,3 +13,9 @@
 .overflow-x-auto {
     scroll-behavior: smooth;
 }
+
+@media (min-width: 1024px) {
+    #sidebar {
+        transform: translateX(0); /* Always visible on large screens */
+    }
+}

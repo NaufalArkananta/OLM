@@ -56,7 +56,7 @@ export default {
             },
             fontFamily: {
                 poppins: "Poppins",
-                lato: "Lato",
+                lato: ["Lato", "sans-serif"],
             },
             boxShadow: {
                 "Shadow/Shadow 1": "0px 4px 15px 0px rgba(0,0,0,0.25)",

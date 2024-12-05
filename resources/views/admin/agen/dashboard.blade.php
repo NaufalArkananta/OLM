@@ -1,3 +1,3 @@
 <x-admin-layout>
-  <x-agen-sidebar-items></x-agen-sidebar-items>
+  <x-admin.dashboard></x-admin.dashboard>
 </x-admin-layout>
