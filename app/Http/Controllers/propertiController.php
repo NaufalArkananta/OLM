@@ -2,164 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Property;
 use Illuminate\Http\Request;
-class propertiController extends Controller
+use Illuminate\Support\Facades\Validator;
+
+class PropertiController extends Controller
 {
-    public function index(){
-        $data_property = [
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-    ];
-    return view("properti", compact("data_property"));
-    }
-    public function wishlist(){
-        $data_property = [
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-        "name" => "Villa elegan Gunung Buring",
-        "type" => "Villa",
-        "price" => "Rp 950.5 Juta",
-        "location" => "Kota Malang, Malang Raya",
-        "image" => "img/apartement-dummy.jpg",
-        "sales_role" => "Public Sales",
-        "sales_name" => "Roberto Santoso",
-        "sales_phone" => "+62 855-7749-8231",
-        "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-    ];
-    return view("wishlist", compact("data_property"));
+    public function index()
+    {
+        $data_property = Property::all();
+        return view('properti', compact('data_property'));
     }
 
-    public function detail($id)
-{
-    $data_property = [
-        [
-            "name" => "Villa elegan Gunung Buring",
-            "type" => "Villa",
-            "price" => "Rp 950.5 Juta",
-            "location" => "Kota Malang, Malang Raya",
-            "image" => "img/apartement-dummy.jpg",
-            "sales_role" => "Public Sales",
-            "sales_name" => "Roberto Santoso",
-            "sales_phone" => "+62 855-7749-8231",
-            "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-        [
-            "name" => "Villa elegan Gunung Buring",
-            "type" => "Villa",
-            "price" => "Rp 950.5 Juta",
-            "location" => "Kota Malang, Malang Raya",
-            "image" => "img/apartement-dummy.jpg",
-            "sales_role" => "Public Sales",
-            "sales_name" => "Roberto Santoso",
-            "sales_phone" => "+62 855-7749-8231",
-            "sales_pic" => "img/sales_img_dummy.jpg"
-        ],
-    ];
-
-    if (!isset($data_property[$id])) {
-        abort(404, "Properti tidak ditemukan.");
+    public function create()
+    {
+        return view('create-properti');
     }
 
-    $property = $data_property[$id];
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'property_owner_name' => 'required|max:100',
+            'property_owner_number_phone' => 'required|max:15',
+            'title' => 'required|max:100',
+            'category_id' => 'required|exists:property_categories,id',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'location' => 'required|max:255',
+            'status' => 'required|in:not verified,verified,sold',
+        ]);
 
-    return view('detail-properti', compact('property'));
-}
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
+        Property::create($request->all());
+
+        return redirect()->route('properti.index')->with('success', 'Property added successfully!');
+    }
+
+    public function show($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('detail-properti', compact('property'));
+    }
+
+    public function edit($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('edit-properti', compact('property'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'property_owner_name' => 'required|max:100',
+            'property_owner_number_phone' => 'required|max:15',
+            'title' => 'required|max:100',
+            'category_id' => 'required|exists:property_categories,id',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'location' => 'required|max:255',
+            'status' => 'required|in:not verified,verified,sold',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $property = Property::findOrFail($id);
+        $property->update($request->all());
+
+        return redirect()->route('properti.index')->with('success', 'Property updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $property = Property::findOrFail($id);
+        $property->delete();
+
+        return redirect()->route('properti.index')->with('success', 'Property deleted successfully!');
+    }
 }
