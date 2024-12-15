@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\AgenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\propertiController;
 
@@ -31,6 +32,9 @@ Route::get('/wishlist', function () {
 Route::get('/properti', function () {
     return view('properti');
 });
+Route::get('/panduan', function () {
+    return view('panduan');
+});
 Route::get('/admin/owner/dashboard', function () {
     return view(view: 'admin/owner/dashboard');
 });
@@ -40,8 +44,14 @@ Route::get('/admin/validator/dashboard', function () {
 Route::get('/admin/agen/dashboard', function () {
     return view(view: 'admin/agen/dashboard');
 });
+Route::get('/admin/agen/prop/tambah', function () {
+    return view(view: 'admin/agen/prop-tambah');
+});
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/properti', [propertiController::class, 'index']);
 Route::get('/wishlist', [propertiController::class, 'wishlist']);
 Route::get('/properti/{id}', [propertiController::class, 'detail'])->name('properti.detail');
+Route::get('/admin/agen/prop/active', [agenController::class, 'index']);
+Route::get('/admin/agen/prop/not-valid', [agenController::class, 'secondary']);
+Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);

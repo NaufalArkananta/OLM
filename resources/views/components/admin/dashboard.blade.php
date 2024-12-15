@@ -5,7 +5,7 @@
     </div>
     <div>
       <p class="text-3xl font-semibold text-slate-950">Total Properti Aktif</p>
-      <p class="text-5xl font-semibold text-slate-600">6</p>
+      <p class="text-5xl font-  semibold text-slate-600">6</p>
     </div>
   </div>
   <div class="flex items-center w-full gap-4 p-3 border rounded-lg bg-frost-white border-slate-300">
