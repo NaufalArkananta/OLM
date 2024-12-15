@@ -2,12 +2,12 @@
   <div id="carousel" class="relative w-full overflow-hidden">
     <!-- Slides -->
     <div class="flex w-full transition-transform duration-500 ease-in-out rounded-lg carousel-slides">
-      <img src="{{ asset('img/image-carousel-1.png') }}" class="object-cover w-full h-[500px] rounded-rounded-3"
-        alt="img 1">
-      <img src="{{ asset('img/image-carousel-1.png') }}" class="object-cover w-full h-[500px] rounded-rounded-3"
-        alt="img 2">
-      <img src="{{ asset('img/image-carousel-1.png') }}" class="object-cover w-full h-[500px] rounded-rounded-3"
-        alt="img 3">
+    <img src="{{ asset('img/image-carousel-1.png') }}" class="object-contain w-full h-[500px] rounded-rounded-3"
+      alt="img 1">
+    <img src="{{ asset('img/image-carousel-1.png') }}" class="object-contain w-full h-[500px] rounded-rounded-3"
+      alt="img 2">
+    <img src="{{ asset('img/image-carousel-1.png') }}" class="object-contain w-full h-[500px] rounded-rounded-3"
+      alt="img 3">
     </div>
     <!-- Navigation buttons -->
     <button id="prev" class="absolute left-0 px-4 py-2 text-white -translate-y-1/2 bg-transparent top-1/2 group">

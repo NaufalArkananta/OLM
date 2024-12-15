@@ -12,7 +12,8 @@
               Selamat Datang Kembali Admin!
             </h1>
           </div>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6"  action="{{ route('admin.login') }}" method="POST">
+            @csrf
             <div>
               <label for="email" class="block mb-2 text-xl font-normal text-gray-900">Username / Email</label>
               <input type="email" name="email" id="email"

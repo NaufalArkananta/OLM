@@ -14,7 +14,8 @@
             <p class="text-xl font-normal text-slate-600">Masukkan kode verifikasi yang telah dikirimkan ke Nomor
               Whatsapp</p>
           </div>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" action="{{ route('verification') }}" method="POST">
+            @csrf
             <div class="grid items-center justify-between w-full grid-cols-5 gap-x-4">
               <input type="number"
                 class="bg-white border border-slate-300 rounded-[8px] w-full h-16 text-5xl text-center"></input>

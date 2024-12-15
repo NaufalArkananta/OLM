@@ -1,8 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\agenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\OwnerController;
@@ -42,7 +42,6 @@ Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin
 
 // route for api auth for user
 Route::post('/login', [UserLoginController::class, 'login'])->name('login');
-// Route::post('/register', [UserLoginController::class, 'register'])->name('register');
 Route::middleware(['web'])->group(function () {
     Route::post('/register', [UserLoginController::class, 'register'])->name('register');
     Route::get('/register', function () {
@@ -56,14 +55,6 @@ Route::post('/logout', function () {
     session()->forget('role'); // Hapus role dari session
     return redirect('/');
 })->name('logout');
-// Route::get('/register', function () {
-//     return view('register');
-// });
-// Route::get('/verification', function () {
-//     return view('verification');
-// });
-// Rute untuk menampilkan halaman OTP
-// Route::get('/verification', [OtpController::class, 'index'])->name('verification');
 Route::get('/profile', function () {
     return view('profile');
 });
@@ -73,17 +64,19 @@ Route::get('/wishlist', function () {
 Route::get('/properti', function () {
     return view('properti');
 });
-// Route::get('/admin/owner/dashboard', function () {
-//     return view(view: 'admin/owner/dashboard');
-// });
-// Route::get('/admin/validator/dashboard', function () {
-//     return view(view: 'admin/validator/dashboard');
-// });
-// Route::get('/admin/agen/dashboard', function () {
-//     return view(view: 'admin/agen/dashboard');
-// });
+
+Route::get('/panduan', function () {
+    return view('panduan');
+});
+
+Route::get('/admin/agen/prop/tambah', function () {
+    return view(view: 'admin/agen/prop-tambah');
+});
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/properti', [propertiController::class, 'index']);
 Route::get('/wishlist', [propertiController::class, 'wishlist']);
 Route::get('/properti/{id}', [propertiController::class, 'detail'])->name('properti.detail');
+Route::get('/admin/agen/prop/active', [agenController::class, 'index']);
+Route::get('/admin/agen/prop/not-valid', [agenController::class, 'secondary']);
+Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
