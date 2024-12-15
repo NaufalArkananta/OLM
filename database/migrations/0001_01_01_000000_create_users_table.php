@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('password', 100);
             $table->enum('role',['owner', 'validator', 'agent', 'user']);
-            $table->string('phone_number', 15);
+            $table->string('phone_number', 15)->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('updated_password_at')->nullable();

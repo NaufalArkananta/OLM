@@ -14,7 +14,8 @@
             <p class="font-normal text-slate-600">Sudah memiliki akun? <span><a class="font-bold text-sky-400"
                   href="/login">Masuk</a></span></p>
           </div>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" action="{{ route('register') }}" method="POST">
+            @csrf
             <div>
               <label for="username" class="block mb-2 text-xl font-normal text-gray-900">Username</label>
               <input type="username" name="username" id="username"
