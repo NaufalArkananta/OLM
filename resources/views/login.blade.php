@@ -14,7 +14,8 @@
             <p class="font-normal text-slate-600">Belum memiliki akun? <span><a class="font-bold text-sky-400"
                   href="/register">Daftar</a></span></p>
           </div>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" method="POST">
+            @csrf
             <div>
               <label for="email" class="block mb-2 text-xl font-normal text-gray-900">Username / Email</label>
               <input type="email" name="email" id="email"

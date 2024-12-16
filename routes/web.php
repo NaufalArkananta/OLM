@@ -1,29 +1,55 @@
 <?php
-use App\Http\Controllers\AgenController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ownerController;
-use App\Http\Controllers\propertiController;
-use App\Http\Controllers\validatorController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OtpController;
+use App\Http\Controllers\agenController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\propertiController;
 
 Route::get('/', function () {
     return view('home');
 });
 Route::get('/login', function () {
     return view('login');
-});
+})->middleware('guest');
+// route for admin login page
 Route::get('/admin/login', function () {
-    return view('admin/login');
+    return view('admin.login');
+})->middleware('guest');
+
+// route for owner dashboard
+Route::middleware(['auth', 'role:owner'])->group(function () {
+    Route::get('/admin/owner/dashboard', [OwnerController::class, 'index'])->name('admin.owner.dashboard');
 });
-Route::get('/admin', function () {
-    return view('admin/login');
+
+// route for agen dashboard
+Route::middleware(['auth', 'role:agent'])->group(function () {
+    Route::get('/admin/agen/dashboard', [AgentController::class, 'index'])->name('admin.agen.dashboard');
 });
-Route::get('/register', function () {
-    return view('register');
+
+// route for validator dashboard
+Route::middleware(['auth', 'role:validator'])->group(function () {
+    Route::get('/admin/validator/dashboard', [ValidatorController::class, 'index'])->name('admin.validator.dashboard');
 });
-Route::get('/verification', function () {
-    return view('verification');
+
+// route for api auth for admin
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
+
+// route for api auth for user
+Route::post('/login', [UserLoginController::class, 'login'])->name('login');
+Route::middleware(['web'])->group(function () {
+    Route::post('/register', [UserLoginController::class, 'register'])->name('register');
+    Route::get('/register', function () {
+        return view('register');
+    });
+    Route::get('/verification', [OtpController::class, 'index'])->name('verification');
 });
+
+Route::post('/logout', function () {
+    Auth::logout(); // Logout pengguna
+    session()->forget('role'); // Hapus role dari session
+    return redirect('/');
+})->name('logout');
 Route::get('/profile', function () {
     return view('profile');
 });
@@ -33,18 +59,11 @@ Route::get('/wishlist', function () {
 Route::get('/properti', function () {
     return view('properti');
 });
+
 Route::get('/panduan', function () {
     return view('panduan');
 });
-Route::get('/admin/owner/dashboard', function () {
-    return view(view: 'admin/owner/dashboard');
-});
-Route::get('/admin/validator/dashboard', function () {
-    return view(view: 'admin/validator/dashboard');
-});
-Route::get('/admin/agen/dashboard', function () {
-    return view(view: 'admin/agen/dashboard');
-});
+
 Route::get('/admin/agen/prop/tambah', function () {
     return view(view: 'admin/agen/prop-tambah');
 });
