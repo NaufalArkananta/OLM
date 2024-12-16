@@ -1,8 +1,9 @@
 <?php
 use App\Http\Controllers\AgenController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ownerController;
 use App\Http\Controllers\propertiController;
-
+use App\Http\Controllers\validatorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -55,3 +56,16 @@ Route::get('/properti/{id}', [propertiController::class, 'detail'])->name('prope
 Route::get('/admin/agen/prop/active', [agenController::class, 'index']);
 Route::get('/admin/agen/prop/not-valid', [agenController::class, 'secondary']);
 Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
+Route::prefix('admin/owner')->group(function () {
+    Route::get('/data-sales', [ownerController::class, 'index'])->name('admin.sales.index');
+    Route::get('/data-sales/{id}/edit', [ownerController::class, 'edit'])->name('admin.sales.edit');
+    Route::delete('/data-sales/{id}', [ownerController::class, 'destroy'])->name('admin.sales.destroy');
+    Route::get('/data-sales/create', [OwnerController::class, 'create'])->name('admin.sales.create');
+});
+
+Route::prefix('admin/owner')->group(function () {
+    Route::get('/data-validator', [validatorController::class, 'index'])->name('admin.validator.index');
+    Route::get('/data-validator/{id}/edit', [validatorController::class, 'edit'])->name('admin.validator.edit');
+    Route::delete('/data-validator/{id}', [validatorController::class, 'destroy'])->name('admin.validator.destroy');
+    Route::get('/data-validator/create', [validatorController::class, 'create'])->name('admin.validator.create');
+});
