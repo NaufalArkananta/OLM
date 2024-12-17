@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('updated_password_at')->nullable();
+            $table->boolean('is_verify')->default(false);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

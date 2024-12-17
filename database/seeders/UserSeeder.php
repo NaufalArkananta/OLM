@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'updated_password_at' => now(),
+            'is_verify'=> true,
         ]);
 
         // User
@@ -34,6 +35,7 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'updated_password_at' => now(),
+            'is_verify'=> true,
         ]);
 
         // Agen
@@ -47,6 +49,7 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'updated_password_at' => now(),
+            'is_verify'=> true,
         ]);
 
         // Validator
@@ -60,6 +63,7 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'updated_password_at' => now(),
+            'is_verify'=> true,
         ]);
     }
 }
