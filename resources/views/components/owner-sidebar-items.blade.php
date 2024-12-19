@@ -55,27 +55,27 @@
         x-transition:leave-end="-translate-y-24 opacity-0" class="flex items-start pl-4 gap-x-2">
         <ul>
             <li class="border-l-[2px] py-2 pl-2 border-sky-400">
-                <a href="#"
-                    class="flex items-center relative w-full px-2.5 py-3 font-medium text-black duration-200 rounded-lg hover:text-white hover:bg-sky-400 group">
-                    <span class="text-left ms-1">Tambah Properti</span>
-                </a>
-            </li>
-            <li class="border-l-[2px] border-sky-400 py-2 pl-2">
-                <a href="#"
+                <a href="/admin/owner/prop-active"
                     class="flex items-center relative w-full px-2.5 py-3 font-medium text-black duration-200 rounded-lg hover:text-white hover:bg-sky-400 group">
                     <span class="text-left ms-1">Properti Aktif</span>
                 </a>
             </li>
             <li class="border-l-[2px] border-sky-400 py-2 pl-2">
-                <a href="#"
+                <a href="/admin/owner/prop-selled"
                     class="flex items-center relative w-full px-2.5 py-3 font-medium text-black duration-200 rounded-lg hover:text-white hover:bg-sky-400 group">
-                    <span class="text-left ms-1">Properti Belum Validasi</span>
+                    <span class="text-left ms-1">Properti Terjual</span>
                 </a>
             </li>
             <li class="border-l-[2px] border-sky-400 py-2 pl-2">
-                <a href="#"
+                <a href="/admin/owner/prop-need-validate"
                     class="flex items-center relative w-full px-2.5 py-3 font-medium text-black duration-200 rounded-lg hover:text-white hover:bg-sky-400 group">
-                    <span class="text-left ms-1">Properti Terjual</span>
+                    <span class="text-left ms-1">Properti Perlu Validasi</span>
+                </a>
+            </li>
+            <li class="border-l-[2px] border-sky-400 py-2 pl-2">
+                <a href="/admin/owner/table-prop"
+                    class="flex items-center relative w-full px-2.5 py-3 font-medium text-black duration-200 rounded-lg hover:text-white hover:bg-sky-400 group">
+                    <span class="text-left ms-1">Tabel Penjualan Properti</span>
                 </a>
             </li>
         </ul>

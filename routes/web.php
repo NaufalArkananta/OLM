@@ -3,8 +3,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\agenController;
+use App\Http\Controllers\AgentController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\UserLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\ownerUserController;
 use App\Http\Controllers\propertiController;
+use App\Http\Controllers\ValidatorController;
 
 Route::get('/', function () {
     return view('home');
@@ -19,7 +25,7 @@ Route::get('/admin/login', function () {
 
 // route for owner dashboard
 Route::middleware(['auth', 'role:owner'])->group(function () {
-    Route::get('/admin/owner/dashboard', [OwnerController::class, 'index'])->name('admin.owner.dashboard');
+    Route::get('/admin/owner/dashboard', [ownerController::class, 'index'])->name('admin.owner.dashboard');
 });
 
 // route for agen dashboard
@@ -76,15 +82,24 @@ Route::get('/admin/agen/prop/active', [agenController::class, 'index']);
 Route::get('/admin/agen/prop/not-valid', [agenController::class, 'secondary']);
 Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
 Route::prefix('admin/owner')->group(function () {
-    Route::get('/data-sales', [ownerController::class, 'index'])->name('admin.sales.index');
-    Route::get('/data-sales/{id}/edit', [ownerController::class, 'edit'])->name('admin.sales.edit');
-    Route::delete('/data-sales/{id}', [ownerController::class, 'destroy'])->name('admin.sales.destroy');
-    Route::get('/data-sales/create', [OwnerController::class, 'create'])->name('admin.sales.create');
+    Route::get('/data-sales', [ownerUserController::class, 'indexS'])->name('admin.sales.index');
+    Route::get('/data-sales/{id}/edit', [ownerUserController::class, 'editS'])->name('admin.sales.edit');
+    Route::delete('/data-sales/{id}', [ownerUserController::class, 'destroyS'])->name('admin.sales.destroy');
+    Route::get('/data-sales/create', [ownerUserController::class, 'createS'])->name('admin.sales.create');
 });
 
 Route::prefix('admin/owner')->group(function () {
-    Route::get('/data-validator', [validatorController::class, 'index'])->name('admin.validator.index');
-    Route::get('/data-validator/{id}/edit', [validatorController::class, 'edit'])->name('admin.validator.edit');
-    Route::delete('/data-validator/{id}', [validatorController::class, 'destroy'])->name('admin.validator.destroy');
-    Route::get('/data-validator/create', [validatorController::class, 'create'])->name('admin.validator.create');
+    Route::get('/data-validator', [ownerUserController::class, 'indexV'])->name('admin.validator.index');
+    Route::get('/data-validator/{id}/edit', [ownerUserController::class, 'editV'])->name('admin.validator.edit');
+    Route::delete('/data-validator/{id}', [ownerUserController::class, 'destroyV'])->name('admin.validator.destroy');
+    Route::get('/data-validator/create', [ownerUserController::class, 'createV'])->name('admin.validator.create');
 });
+
+Route::prefix('admin/owner')->group(function () {
+    Route::get('/prop-active', [OwnerController::class, 'activeProp']);
+    Route::get('/prop-selled', [OwnerController::class, 'selledProp']);
+    Route::get('/prop-need-validate', [OwnerController::class, 'needValidateProp']);
+    Route::get('/table-prop', [OwnerController::class, 'tableProp']);
+});
+
+

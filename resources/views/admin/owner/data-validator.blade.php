@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody class="border border-slate-300 ">
-                    @foreach ($data_property as $sale)
+                    @foreach ($validators as $sale)
                         <tr class="hover:bg-gray-100 border border-slate-300 items-center">
                             <!-- Select Checkbox -->
                             <td class="border border-slate-300 p-2">

@@ -6,7 +6,7 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class PropertiController extends Controller
+class propertiController extends Controller
 {
     public function index()
     {
