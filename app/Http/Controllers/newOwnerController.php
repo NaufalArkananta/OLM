@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class OwnerController extends Controller
+class newOwnerController extends Controller
 {
     public function index()
     {
@@ -102,6 +102,4 @@ class OwnerController extends Controller
         $data_property = $this->data_property;
         return view('admin.owner.table-prop', compact("data_property"));
     }
-
-
 }
