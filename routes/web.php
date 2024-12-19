@@ -7,6 +7,8 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\UserLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\newOwnerController;
+use App\Http\Controllers\ownerUserController;
 use App\Http\Controllers\propertiController;
 
 Route::get('/', function () {
@@ -97,9 +99,9 @@ Route::prefix('admin/owner')->group(function () {
 });
 
 Route::prefix('admin/owner')->group(function () {
-    Route::get('/prop-active', [OwnerController::class, 'activeProp']);
-    Route::get('/prop-selled', [OwnerController::class, 'selledProp']);
-    Route::get('/prop-need-validate', [OwnerController::class, 'needValidateProp']);
-    Route::get('/table-prop', [OwnerController::class, 'tableProp']);
+    Route::get('/prop-active', [newOwnerController::class, 'activeProp']);
+    Route::get('/prop-selled', [newOwnerController::class, 'selledProp']);
+    Route::get('/prop-need-validate', [newOwnerController::class, 'needValidateProp']);
+    Route::get('/table-prop', [newOwnerController::class, 'tableProp']);
 });
 
