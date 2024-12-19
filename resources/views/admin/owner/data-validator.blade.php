@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody class="border border-slate-300 ">
-                    @foreach ($validators as $sale)
+                    @foreach ($validators as $validator)
                         <tr class="hover:bg-gray-100 border border-slate-300 items-center">
                             <!-- Select Checkbox -->
                             <td class="border border-slate-300 p-2">
@@ -31,15 +31,15 @@
                             </td>
 
                             <!-- User Data -->
-                            <td class="border border-slate-300">{{ $sale['username'] }}</td>
-                            <td class="border border-slate-300">{{ $sale['password'] }}</td>
-                            <td class="border border-slate-300">{{ $sale['penempatan'] }}</td>
-                            <td class="border border-slate-300">{{ $sale['last_active'] }}</td>
+                            <td class="border border-slate-300">{{ $validator['username'] }}</td>
+                            <td class="border border-slate-300">{{ $validator['password'] }}</td>
+                            <td class="border border-slate-300">{{ $validator['penempatan'] }}</td>
+                            <td class="border border-slate-300">{{ $validator['last_active'] }}</td>
 
                             <!-- Action Buttons -->
                             <td class="flex justify-center gap-2">
                                 <button type="button" class="text-gray-500 hover:text-gray-700"
-                                    onclick="alert('User Info: {{ $sale['username'] }}')">
+                                    onclick="alert('User Info: {{ $validator['username'] }}')">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -53,7 +53,7 @@
 
                                 </button>
                                 <!-- Edit Button -->
-                                <a href="{{ route('admin.sales.edit', $sale['id']) }}"
+                                <a href="{{ route('admin.sales.edit', $validator['id']) }}"
                                     class="text-blue-500 hover:text-blue-700">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +72,7 @@
                                 </a>
 
                                 <!-- Delete Button -->
-                                <form action="{{ route('admin.sales.destroy', $sale['id']) }}" method="POST"
+                                <form action="{{ route('admin.sales.destroy', $validator['id']) }}" method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this user?')">
                                     @csrf
                                     @method('DELETE')

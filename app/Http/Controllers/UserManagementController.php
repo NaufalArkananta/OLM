@@ -25,14 +25,14 @@ class UserManagementController extends Controller
     public function agents()
     {
         $agents = User::where('role', 'agent')->get(); // Ambil pengguna dengan role 'agent'
-        return view('#', compact('agents')); // Tampilkan view dengan daftar agent
+        return view('admin.owner.data-sales', compact('agents')); // Tampilkan view dengan daftar agent
     }
 
     // Menampilkan daftar pengguna dengan role 'validator'
     public function validators()
     {
         $validators = User::where('role', 'validator')->get(); // Ambil pengguna dengan role 'validator'
-        return view('#', compact('validators')); // Tampilkan view dengan daftar validator
+        return view('admin.owner.data-validator', compact('validators')); // Tampilkan view dengan daftar validator
     }
 
     // Menampilkan form untuk membuat pengguna baru

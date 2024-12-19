@@ -7,10 +7,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\UserLoginController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\ownerUserController;
 use App\Http\Controllers\propertiController;
-use App\Http\Controllers\ValidatorController;
 
 Route::get('/', function () {
     return view('home');
@@ -25,17 +22,17 @@ Route::get('/admin/login', function () {
 
 // route for owner dashboard
 Route::middleware(['auth', 'role:owner'])->group(function () {
-    Route::get('/admin/owner/dashboard', [ownerController::class, 'index'])->name('admin.owner.dashboard');
+    Route::get('/admin/owner/dashboard', [OwnerController::class, 'index'])->name('admin.owner.dashboard');
 });
 
 // route for agen dashboard
-Route::middleware(['auth', 'role:agent'])->group(function () {
+Route::middleware(['auth', 'role:agent', 'verified'])->group(function () {
     Route::get('/admin/agen/dashboard', [AgentController::class, 'index'])->name('admin.agen.dashboard');
 });
 
 // route for validator dashboard
-Route::middleware(['auth', 'role:validator'])->group(function () {
-    Route::get('/admin/validator/dashboard', [ValidatorController::class, 'index'])->name('admin.validator.dashboard');
+Route::middleware(['auth', 'role:validator', 'verified'])->group(function () {
+    Route::get('/admin/validator/dashboard', [validatorController::class, 'index'])->name('admin.validator.dashboard');
 });
 
 // route for api auth for admin
@@ -50,14 +47,18 @@ Route::middleware(['web'])->group(function () {
     });
     Route::get('/verification', [OtpController::class, 'index'])->name('verification');
 });
+Route::post('/verify-otp', [UserLoginController::class, 'verifyOtp'])->name('verify.otp');
 
+// route for logout
 Route::post('/logout', function () {
     Auth::logout(); // Logout pengguna
     session()->forget('role'); // Hapus role dari session
     return redirect('/');
 })->name('logout');
-Route::get('/profile', function () {
-    return view('profile');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile', function () {
+        return view('profile');
+    });
 });
 Route::get('/wishlist', function () {
     return view('wishlist');
@@ -101,5 +102,4 @@ Route::prefix('admin/owner')->group(function () {
     Route::get('/prop-need-validate', [OwnerController::class, 'needValidateProp']);
     Route::get('/table-prop', [OwnerController::class, 'tableProp']);
 });
-
 
