@@ -2,10 +2,7 @@
     <section class="w-full">
         <!-- Add User Button -->
         <div class="flex justify-end mb-4">
-            <a href="{{ route('admin.sales.create') }}"
-                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                + Tambah User Sales
-            </a>
+            <x-button type="button" color="primary" onclick="openModal()">+ Tambah User Validator</x-button>
         </div>
 
         <!-- Data Sales Table -->
@@ -72,10 +69,8 @@
                                 </a>
 
                                 <!-- Delete Button -->
-                                <form action="{{ route('admin.sales.destroy', $validator['id']) }}" method="POST"
-                                    onsubmit="return confirm('Are you sure you want to delete this user?')">
-                                    @csrf
-                                    @method('DELETE')
+                                <button onclick="openDeleteModal()" type="submit"
+                                    class="text-red-500 hover:text-red-700">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -88,8 +83,7 @@
                                             d="M14 16C13.7204 16 13.4535 16.1171 13.2641 16.3229C13.0748 16.5287 12.9802 16.8044 13.0035 17.083L13.7742 26.3322C13.947 28.4054 15.68 30 17.7604 30H22.2396C24.32 30 26.053 28.4054 26.2258 26.3322L26.9965 17.083C27.0198 16.8044 26.9252 16.5287 26.7359 16.3229C26.5465 16.1171 26.2797 16 26 16H14Z"
                                             fill="#F43F5E" />
                                     </svg>
-
-                                </form>
+                                </button>
 
                                 <!-- Info Button -->
 
@@ -100,4 +94,71 @@
             </table>
         </div>
     </section>
+    <div id="modal-sales" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        onclick="closeModal(event)">
+        <div class="bg-frost-white rounded-lg p-5 font-poppins flex flex-col gap-3 max-w-4xl w-full mx-auto">
+            <div>
+                <h1 class="font-bold text-4xl">Tambah Akun Validator</h1>
+                <p>Isi data di bawah untuk menambahkan validator</p>
+            </div>
+            <div class="border border-b-slate-200"></div>
+            <form action="" method="POST" class="flex flex-col gap-3">
+                <x-textfield name="name" label="Nama Lengkap" placeholder="Masukkan nama lengkap anda" />
+                <x-textfield type="number" name="number" label="Nomor Telepon/Whatsapp Aktif"
+                    placeholder="+62 000 0000 0000" />
+                <x-textarea name="address" label="Alamat"
+                    placeholder="Contoh: Jl. Danau Toba, Kec. Kedung Kandang, Kota Malang" />
+                <x-textfield name="place" label="Kota Penempatan" placeholder="Masukkan Nama Kota Anda" />
+                <x-textfield name="username" label="Username" placeholder="Masukkan Username anda" />
+                <x-textfield name="password" label="Password" placeholder="Masukkan Password anda" type="password" />
+                <div class="w-full flex gap-4 justify-end">
+                    <x-button type="button" color="white" onclick="closeModal()">Cancel</x-button>
+                    <x-button type="submit">Tambah Validator</x-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modal-delete"
+        class="hidden fixed inset-0 flex items-center text-center justify-center bg-black bg-opacity-50"
+        onclick="closeDeleteModal(event)">
+        <div class="bg-white rounded-lg p-5 font-poppins flex flex-col gap-3 max-w-4xl w-full mx-auto">
+            <h1 class="text-5xl font-bold">Apakah Anda Yakin Ingin Menghapus Akun Validator Ini?</h1>
+            <p class="text-xl">Jika sudah yakin bisa klik Hapus Akun Validator, jika belum yakin bisa klik Batal</p>
+            <div class="flex justify-center gap-4">
+                <x-button color="white" onclick="closeDeleteModal()">Batal</x-button>
+                <x-button color="red">Hapus Akun Validator</x-button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to open the modal
+        function openModal() {
+            const modal = document.getElementById('modal-sales');
+            modal.classList.remove('hidden');
+        }
+
+        // Function to close the modal
+        function closeModal(event) {
+            const modal = document.getElementById('modal-sales');
+
+            // Check if event is triggered by background click or direct button click
+            if (!event || event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function openDeleteModal() {
+            const modal = document.getElementById('modal-delete');
+            modal.classList.remove('hidden');
+        }
+
+        function closeDeleteModal(event) {
+            const modal = document.getElementById('modal-delete');
+
+            // Check if event is triggered by background click or direct button click
+            if (!event || event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        }
+    </script>
 </x-admin-layout>

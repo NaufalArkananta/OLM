@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\newOwnerController;
 use App\Http\Controllers\ownerUserController;
 use App\Http\Controllers\propertiController;
+use App\Http\Controllers\validatorController;
 
 Route::get('/', function () {
     return view('home');
@@ -24,7 +25,7 @@ Route::get('/admin/login', function () {
 
 // route for owner dashboard
 Route::middleware(['auth', 'role:owner'])->group(function () {
-    Route::get('/admin/owner/dashboard', [OwnerController::class, 'index'])->name('admin.owner.dashboard');
+    Route::get('/admin/owner/dashboard', [newOwnerController::class, 'index'])->name('admin.owner.dashboard');
 });
 
 // route for agen dashboard
@@ -105,3 +106,11 @@ Route::prefix('admin/owner')->group(function () {
     Route::get('/table-prop', [newOwnerController::class, 'tableProp']);
 });
 
+Route::prefix('admin/validator')->group(function () {
+    Route::get('/prop-need-validate', [validatorController::class, 'needValidate']);
+    Route::get('/prop-validated', [validatorController::class, 'validated']);
+});
+
+Route::get('admin/owner/test', function () {
+    return view('admin.owner.delete-modal');
+});
