@@ -111,6 +111,10 @@ Route::prefix('admin/validator')->group(function () {
     Route::get('/prop-validated', [validatorController::class, 'validated']);
 });
 
-Route::get('admin/owner/test', function () {
-    return view('admin.owner.delete-modal');
+Route::get('admin/validator/test1', function () {
+    return view('admin.validator.validate-popup');
+});
+
+Route::get('admin/validator/test2', function () {
+    return view('admin.validator.decline-popup');
 });

@@ -95,9 +95,27 @@
                             {{ $property['request_date'] }}
                         </h1>
                     </div>
-                    <x-button class="mt-4 w-full">Validasi</x-button>
+                    <x-button class="mt-4 w-full" onclick="openValidateModal()">Validasi</x-button>
                 </div>
             </div>
         @endforeach
     </section>
+    <div id="modal-validate"
+        class="hidden fixed inset-0 flex items-center justify-center bg-black overflow-hidden bg-opacity-50"
+        onclick="closeValidateModal(event)">
+        <div class="bg-transparent rounded-lg w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative  scrollbar-hide">
+            <x-admin.validate-popup :property="$property"></x-admin.validate-popup>
+        </div>
+    </div>
+    <script>
+        function openValidateModal() {
+            document.getElementById('modal-validate').classList.remove('hidden');
+        }
+
+        function closeValidateModal(event) {
+            if (event.target === event.currentTarget) {
+                document.getElementById('modal-validate').classList.add('hidden');
+            }
+        }
+    </script>
 </x-admin-layout>
