@@ -27,6 +27,7 @@ class User extends Authenticatable
         'is_verify',
         'city_id', 
         'address',
+        'last_active'
     ];
 
     /**
