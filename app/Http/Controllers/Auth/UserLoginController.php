@@ -64,22 +64,22 @@ class UserLoginController extends Controller
             'role' => 'user', // Menetapkan role pengguna sebagai 'user'
         ]);
     
-        // Generate OTP
-        $otp = rand(10000, 99999); // Generate OTP 5 digit
+        // // Generate OTP
+        // $otp = rand(10000, 99999); // Generate OTP 5 digit
     
-        // Kirim OTP melalui WhatsApp
-        $this->sendOtp($user->phone_number, $otp); // Pastikan ini adalah field yang benar
+        // // Kirim OTP melalui WhatsApp
+        // $this->sendOtp($user->phone_number, $otp); // Pastikan ini adalah field yang benar
     
-        // Simpan informasi pengguna di session
-        session([
-            'user_id' => $user->id,
-            'role' => $user->role,
-            'is_logged_in' => true, // Status login
-            'otp' => $otp,
-        ]);
+        // // Simpan informasi pengguna di session
+        // session([
+        //     'user_id' => $user->id,
+        //     'role' => $user->role,
+        //     'is_logged_in' => true, // Status login
+        //     'otp' => $otp,
+        // ]);
     
         // Redirect ke halaman verifikasi setelah registrasi berhasil
-        return redirect()->route('verification');
+        return redirect()->route('login');
     }
     
     private function sendOtp($number, $otp)

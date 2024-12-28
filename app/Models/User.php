@@ -24,7 +24,9 @@ class User extends Authenticatable
         'password',
         'role',
         'phone_number',
-        'is_verify'
+        'is_verify',
+        'city_id', 
+        'address',
     ];
 
     /**
@@ -78,5 +80,10 @@ class User extends Authenticatable
     public function whishlist()
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }
