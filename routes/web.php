@@ -118,3 +118,5 @@ Route::get('admin/validator/test1', function () {
 Route::get('admin/validator/test2', function () {
     return view('admin.validator.decline-popup');
 });
+
+Route::post('/update-last-active', [AdminLoginController::class, 'updateLastActive'])->name('update.last.active');
