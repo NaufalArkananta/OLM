@@ -52,4 +52,9 @@ class Property extends Model
         return $this->hasMany(Wishlist::class);
     }
 
+    public function details()
+    {
+        return $this->hasOne(DetailProperty::class);
+    }
+
 }
