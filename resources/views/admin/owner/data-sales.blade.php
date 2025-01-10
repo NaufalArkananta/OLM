@@ -30,7 +30,7 @@
                             <!-- User Data -->
                             <td class="border border-slate-300">{{ $agent['username'] }}</td>
                             <td class="border border-slate-300">{{ $agent['password'] }}</td>
-                            <td class="border border-slate-300">{{ $agent['penempatan'] }}</td>
+                            <td class="border border-slate-300">{{ $agent->city ? $agent->city->name : 'Tidak Diketahui' }}</td>
                             <td class="border border-slate-300">{{ $agent['last_active'] }}</td>
 
                             <!-- Action Buttons -->
@@ -104,7 +104,8 @@
                 <p>Isi data di bawah untuk menambahkan sales</p>
             </div>
             <div class="border border-b-slate-200"></div>
-            <form action="" method="POST" class="flex flex-col gap-3">
+            <form action="{{ route('admin.sales.create') }}" method="POST" class="flex flex-col gap-3">
+                @csrf
                 <x-textfield name="name" label="Nama Lengkap" placeholder="Masukkan nama lengkap anda" />
                 <x-textfield type="number" name="number" label="Nomor Telepon/Whatsapp Aktif"
                     placeholder="+62 000 0000 0000" />
