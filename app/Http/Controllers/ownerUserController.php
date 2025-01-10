@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ownerUserController extends Controller
 {
@@ -139,7 +142,7 @@ class ownerUserController extends Controller
 
     public function indexS()
     {
-        $sales = $this->data_sales;
+        $sales = User::with('city')->where('role', 'agent')->get();
         return view("admin.owner.data-sales", compact("sales"));
     }
 
@@ -155,13 +158,37 @@ class ownerUserController extends Controller
         return "Delete user with ID: $id";
     }
 
-    public function createS()
+    public function createS(Request $request)
     {
-        return view("admin.owner.data-validator-create");
+        // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'number' => 'required|string', //|regex:/^\+62[0-9]{10,14}$/
+            'address' => 'required|string|max:500', // Validasi alamat
+            'place' => 'required|string|exists:cities,name', // Validasi nama kota
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+
+        // Mencari city_id berdasarkan nama kota
+        $city = City::where('name', $request->place)->first();
+
+        // Buat pengguna baru
+        User::create([
+            'name' => $request->name,
+            'number' => $request->number,
+            'address' => $request->address, // Menyimpan alamat
+            'city_id' => $city->id, // Mengaitkan dengan city_id
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'role' => 'agent',
+        ]);
+
+        return redirect()->route('admin.sales.index')->with('success', 'User  created successfully.');
     }
     public function indexV()
     {
-        $validators = $this->data_validator;
+        $validators = User::with('city')->where('role', 'validator')->get();
         return view("admin.owner.data-validator", compact("validators"));
     }
 
@@ -177,8 +204,32 @@ class ownerUserController extends Controller
         return "Delete user with ID: $id";
     }
 
-    public function createV()
+    public function createV(Request $request)
     {
-        return view("admin.owner.data-validator-create");
+                // Validasi input
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'number' => 'required|string', //|regex:/^\+62[0-9]{10,14}$/
+                    'address' => 'required|string|max:500', // Validasi alamat
+                    'place' => 'required|string|exists:cities,name', // Validasi nama kota
+                    'username' => 'required|string|max:255|unique:users',
+                    'password' => 'required|string|min:8',
+                ]);
+        
+                // Mencari city_id berdasarkan nama kota
+                $city = City::where('name', $request->place)->first();
+        
+                // Buat pengguna baru
+                User::create([
+                    'name' => $request->name,
+                    'number' => $request->number,
+                    'address' => $request->address, // Menyimpan alamat
+                    'city_id' => $city->id, // Mengaitkan dengan city_id
+                    'username' => $request->username,
+                    'password' => Hash::make($request->password),
+                    'role' => 'validator',
+                ]);
+        
+                return redirect()->route('admin.sales.index')->with('success', 'User  created successfully.');
     }
 }
