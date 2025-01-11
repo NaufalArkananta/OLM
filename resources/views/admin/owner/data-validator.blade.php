@@ -30,7 +30,8 @@
                             <!-- User Data -->
                             <td class="border border-slate-300">{{ $validator['username'] }}</td>
                             <td class="border border-slate-300">{{ $validator['password'] }}</td>
-                            <td class="border border-slate-300">{{ $validator->city ? $validator->city->name : 'Tidak Diketahui'  }}</td>
+                            <td class="border border-slate-300">
+                                {{ $validator->city ? $validator->city->name : 'Tidak Diketahui' }}</td>
                             <td class="border border-slate-300">{{ $validator['last_active'] }}</td>
 
                             <!-- Action Buttons -->
@@ -50,8 +51,7 @@
 
                                 </button>
                                 <!-- Edit Button -->
-                                <a href="{{ route('admin.sales.edit', $validator['id']) }}"
-                                    class="text-blue-500 hover:text-blue-700">
+                                <button onclick="openEditModal()" class="text-blue-500 hover:text-blue-700">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -66,7 +66,7 @@
                                     </svg>
 
 
-                                </a>
+                                </button>
 
                                 <!-- Delete Button -->
                                 <button onclick="openDeleteModal()" type="submit"
@@ -119,6 +119,37 @@
             </form>
         </div>
     </div>
+    <div id="modal-edit" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        onclick="closeEditModal(event)">
+        <div class="bg-frost-white rounded-lg p-5 font-poppins flex flex-col gap-3 max-w-4xl w-full mx-auto">
+            <div>
+                <h1 class="font-bold text-4xl">Edit Akun Validator</h1>
+                <p>Edit untuk mengubah data yang ada pada akun validator</p>
+            </div>
+            <div class="border border-b-slate-200"></div>
+            <form action="{{ route('admin.sales.create') }}" method="POST" class="flex flex-col gap-3">
+                @csrf
+                <x-textfield name="name" label="Nama Lengkap" placeholder="Masukkan nama lengkap anda"
+                    value="Moh. Abdul Azis" />
+                <x-textfield type="number" name="number" label="Nomor Telepon/Whatsapp Aktif"
+                    placeholder="+62 000 0000 0000" value="6285737027449" />
+                <x-textarea name="address" label="Alamat"
+                    placeholder="Contoh: Jl. Danau Toba, Kec. Kedung Kandang, Kota Malang"
+                    value="Jl. Basuki Rahmat No.13, Kec. Blimbing, Kota Malang" />
+                <x-textfield name="place" label="Kota Penempatan" placeholder="Masukkan Nama Kota Anda"
+                    value="Kota Malang" />
+                <x-textfield name="username" label="Username" placeholder="Masukkan Username anda"
+                    value="Brezizi.id" />
+                <x-textfield name="password" label="Password" placeholder="Masukkan Password anda" type="password"
+                    value="Test123" />
+                <div class="w-full flex gap-4 justify-end">
+                    <x-button type="button" color="white" onclick="closeEditModal()">Cancel</x-button>
+                    <x-button type="submit">Edit Validator</x-button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="modal-delete"
         class="hidden fixed inset-0 flex items-center text-center justify-center bg-black bg-opacity-50"
         onclick="closeDeleteModal(event)">
@@ -155,6 +186,20 @@
 
         function closeDeleteModal(event) {
             const modal = document.getElementById('modal-delete');
+
+            // Check if event is triggered by background click or direct button click
+            if (!event || event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function openEditModal() {
+            const modal = document.getElementById('modal-edit');
+            modal.classList.remove('hidden');
+        }
+
+        function closeEditModal(event) {
+            const modal = document.getElementById('modal-edit');
 
             // Check if event is triggered by background click or direct button click
             if (!event || event.target === modal) {
