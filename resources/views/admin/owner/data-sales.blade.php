@@ -51,7 +51,7 @@
 
                                 </button>
                                 <!-- Edit Button -->
-                                <button onclick="openEditModal()" class="text-blue-500 hover:text-blue-700">
+                                <button onclick="openEditModal({{ json_encode($agent) }})" class="text-blue-500 hover:text-blue-700">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -69,7 +69,7 @@
                                 </button>
 
                                 <!-- Delete Button -->
-                                <button onclick="openDeleteModal()" type="submit"
+                                <button onclick="openDeleteModal({{ $agent->id }})" type="submit"
                                     class="text-red-500 hover:text-red-700">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -122,32 +122,25 @@
         </div>
     </div>
 
-    <div id="modal-edit" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        onclick="closeEditModal(event)">
+    <div id="modal-edit" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onclick="closeEditModal(event)">
         <div class="bg-frost-white rounded-lg p-5 font-poppins flex flex-col gap-3 max-w-4xl w-full mx-auto">
             <div>
                 <h1 class="font-bold text-4xl">Edit Akun Sales</h1>
                 <p>Edit untuk mengubah data yang ada pada akun sales</p>
             </div>
             <div class="border border-b-slate-200"></div>
-            <form action="{{ route('admin.sales.create') }}" method="POST" class="flex flex-col gap-3">
+            <form id="editSalesForm" data-agent-id="" class="flex flex-col gap-3">
                 @csrf
-                <x-textfield name="name" label="Nama Lengkap" placeholder="Masukkan nama lengkap anda"
-                    value="Moh. Abdul Azis" />
-                <x-textfield type="number" name="number" label="Nomor Telepon/Whatsapp Aktif"
-                    placeholder="+62 000 0000 0000" value="6285737027449" />
-                <x-textarea name="address" label="Alamat"
-                    placeholder="Contoh: Jl. Danau Toba, Kec. Kedung Kandang, Kota Malang"
-                    value="Jl. Basuki Rahmat No.13, Kec. Blimbing, Kota Malang" />
-                <x-textfield name="place" label="Kota Penempatan" placeholder="Masukkan Nama Kota Anda"
-                    value="Kota Malang" />
-                <x-textfield name="username" label="Username" placeholder="Masukkan Username anda"
-                    value="Brezizi.id" />
-                <x-textfield name="password" label="Password" placeholder="Masukkan Password anda" type="password"
-                    value="Test123" />
+                <input type="hidden" name="edit-id" value="">
+                <x-textfield name="edit-name" label="Nama Lengkap" placeholder="Masukkan nama lengkap anda" />
+                <x-textfield type="number" name="edit-number" label="Nomor Telepon/Whatsapp Aktif" placeholder="+62 000 0000 0000" />
+                <x-textarea name="edit-address" label="Alamat" placeholder="Contoh: Jl. Danau Toba, Kec. Kedung Kandang, Kota Malang" />
+                <x-textfield name="edit-city" label="Kota Penempatan" placeholder="Masukkan Nama Kota Anda" />
+                <x-textfield name="edit-username" label="Username" placeholder="Masukkan Username anda" />
+                <x-textfield name="edit-password" label="Password" placeholder="Masukkan Password anda" type="password" />
                 <div class="w-full flex gap-4 justify-end">
                     <x-button type="button" color="white" onclick="closeEditModal()">Cancel</x-button>
-                    <x-button type="submit">Edit Sales</x-button>
+                    <x-button type="button" onclick="submitEditForm()">Edit Sales</x-button>
                 </div>
             </form>
         </div>
@@ -161,13 +154,15 @@
             <p class="text-xl">Jika sudah yakin bisa klik Hapus Akun Sales, jika belum yakin bisa klik Batal</p>
             <div class="flex justify-center gap-4">
                 <x-button color="white" onclick="closeDeleteModal()">Batal</x-button>
-                <x-button color="red">Hapus Akun Sales</x-button>
+                <x-button color="red" id="confirm-delete-button" onclick="submitDeleteForm()">Hapus Akun Sales</x-button>
             </div>
         </div>
     </div>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        let userIdToDelete = null;
         // Function to open the modal
         function openModal() {
             const modal = document.getElementById('modal-sales');
@@ -184,9 +179,9 @@
             }
         }
 
-        function openDeleteModal() {
-            const modal = document.getElementById('modal-delete');
-            modal.classList.remove('hidden');
+        function openDeleteModal(userId) {
+            userIdToDelete = userId; // Simpan ID pengguna yang akan dihapus
+            document.getElementById('modal-delete').classList.remove('hidden'); // Tampilkan modal
         }
 
         function closeDeleteModal(event) {
@@ -198,9 +193,56 @@
             }
         }
 
-        function openEditModal() {
-            const modal = document.getElementById('modal-edit');
-            modal.classList.remove('hidden');
+        function submitDeleteForm() {
+            if (userIdToDelete) {
+                $.ajax({
+                    url: `/user/${userIdToDelete}`, // Ganti dengan URL endpoint delete Anda
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}' // Sertakan token CSRF
+                    },
+                    success: function(response) {
+                        console.log(response.success);
+                        location.reload(); // Refresh halaman setelah berhasil dihapus
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseJSON.error);
+                        alert('Error deleting user: ' + xhr.responseJSON.error);
+                    }
+                });
+            }
+        }
+        
+        function openEditModal(agent) {
+            const agentId = agent.id; // Ambil ID agen
+
+            // AJAX untuk mengambil data agen
+            $.ajax({
+                url: `/user/${agentId}`, // URL untuk mengambil data agen
+                type: 'GET',
+                success: function(data) {
+                    // Isi form dengan data agen
+                    $('input[name="edit-id"]').val(agent.id);
+                    $('input[name="edit-name"]').val(data.name);
+                    $('input[name="edit-number"]').val(data.phone_number);
+                    $('textarea[name="edit-address"]').val(data.address);
+                    $('input[name="edit-username"]').val(data.username);
+                    // Password tidak diisi untuk alasan keamanan
+
+                    // Menampilkan nama kota
+                    if (data.city) {
+                        $('input[name="edit-city"]').val(data.city.name); // Pastikan ada input untuk kota
+                    }
+
+                    // Tampilkan modal
+                    const modal = document.getElementById('modal-edit');
+                    modal.classList.remove('hidden');
+                },
+                error: function(xhr) {
+                    console.error('Error fetching agent data:', xhr);
+                    alert('Failed to fetch agent data.');
+                }
+            });
         }
 
         function closeEditModal(event) {
@@ -210,6 +252,40 @@
             if (!event || event.target === modal) {
                 modal.classList.add('hidden');
             }
+        }
+
+        function submitEditForm() {
+            const agentId = $('input[name="edit-id"]').val(); // Ambil ID agen dari input tersembunyi
+            const data = {
+                'edit-name': $('input[name="edit-name"]').val(),
+                'edit-number': $('input[name="edit-number"]').val(),
+                'edit-address': $('textarea[name="edit-address"]').val(),
+                'edit-username': $('input[name="edit-username"]').val(),
+                'edit-city': $('input[name="edit-city"]').val(), // Ambil city_id
+                _token: "{{ csrf_token() }}" // Sertakan token CSRF
+            };
+
+            $.ajax({
+                url: `/user/${agentId}/update`, // URL untuk update
+                type: 'POST',
+                data: data,
+                success: function(response) {
+                    alert(response.success); // Tampilkan pesan sukses
+                    // Tutup modal atau lakukan tindakan lain
+                    const modal = document.getElementById('modal-edit');
+                    modal.classList.add('hidden');
+                    location.reload()
+                },
+                error: function(xhr) {
+                    console.error('Error updating agent data:', xhr);
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        // Tampilkan kesalahan validasi
+                        alert('Validation errors: ' + JSON.stringify(xhr.responseJSON.errors));
+                    } else {
+                        alert('Failed to update agent data.'); // Tampilkan pesan kesalahan umum
+                    }
+                }
+            });
         }
     </script>
 

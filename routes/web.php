@@ -38,6 +38,9 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
         Route::delete('/data-validator/{id}', [ownerUserController::class, 'destroyV'])->name('admin.validator.destroy');
         Route::post('/data-validator/create', [ownerUserController::class, 'createV'])->name('admin.validator.create');
     });
+    Route::get('/user/{id}', [ownerUserController::class, 'show'])->name('agents.show');
+    Route::post('/user/{id}/update', [ownerUserController::class, 'update'])->name('agents.update');
+    Route::delete('/user/{id}', [ownerUserController::class, 'destroy'])->name('user.destroy');
 });
 
 // route for agen dashboard
