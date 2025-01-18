@@ -17,6 +17,9 @@ class CreateDetailPropertyTable extends Migration
             $table->integer('number_of_floors'); 
             $table->integer('bedrooms');
             $table->integer('bathrooms'); 
+            $table->string('region')->nullable();
+            $table->string('address')->nullable();
+            $table->string('area')->nullable();
             $table->timestamps();
         });
     }
