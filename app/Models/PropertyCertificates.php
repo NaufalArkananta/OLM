@@ -12,7 +12,7 @@ class PropertyCertificates extends Model
     protected $fillable = [
         'property_id',  
         'certificate_type',  
-        'certificate_image',  
+        'certificate_url',  
     ];
 
     public function property()

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetailProperty extends Model
 {
+    protected $table = 'detail_property';
+
     // Jika Anda memiliki kolom yang dapat diisi massal, tambahkan ke sini
     protected $fillable = [
         'land_area',
@@ -15,6 +17,9 @@ class DetailProperty extends Model
         'bedrooms',
         'bathrooms',
         'property_id', // Kolom foreign key
+        'region',
+        'address',
+        'area',
     ];
 
     // Definisikan relasi jika ada

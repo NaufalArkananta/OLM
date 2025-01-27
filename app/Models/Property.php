@@ -18,6 +18,7 @@ class Property extends Model
         'price',
         'location',
         'status',
+        'agreement_type',
         
     ];
 
@@ -28,12 +29,12 @@ class Property extends Model
 
     public function media()
     {
-        return $this->hasMany(PropertyMedia::class);
+        return $this->hasMany(PropertyMedia::class, 'property_id', 'id');
     }
 
     public function category()
     {
-        return $this->belongsTo(PropertyCategory::class);
+        return $this->belongsTo(PropertyCategory::class, 'category_id', 'id');
     }
 
     public function certificate()
