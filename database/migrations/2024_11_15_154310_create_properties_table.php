@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->string('property_owner_name', 100);
-            $table->string('property_owner_number_phone', 15);
-            $table->string('title', 100);
-            $table->foreignId('category_id')->constrained('property_categories');
-            $table->text('description');
+            $table->string('property_owner_name', 100)->nullable();
+            $table->string('property_owner_number_phone', 15)->nullable();
+            $table->string('title', 100)->nullable();
+            $table->foreignId('category_id')->constrained('property_categories')->nullable();
+            $table->text('description')->nullable();
             $table->decimal('price', 15, 2);
             $table->string('location', 255);
-            $table->enum('status', ['not verified', 'verified', 'sold']);
+            $table->enum('status', ['not verified', 'verified', 'sold'])->nullable();
             $table->timestamps();
         });
     }

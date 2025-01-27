@@ -3,15 +3,15 @@
         @foreach ($data_property as $property)
             <div x-data="{ isOn: false }"
                 class="p-4 bg-frost-white rounded-[10px] border border-slate-300 mb-4 relative w-96">
-                <img src="{{ $property['image'] }}"
+                <img src="{{ asset('storage/' . $property->media->first()->media_url) }}"
                     class="object-cover w-full h-[210px] rounded-[8px] border border-slate-300"
-                    alt="{{ $property['name'] }}">
+                    alt="{{ $property['title'] }}">
                 <div class="rounded-[8px] bg-customBlue-250 px-3 py-2 my-3 w-fit">
-                    <p class="text-xl font-medium text-sky-400">{{ $property['type'] }}</p>
+                    <p class="text-xl font-medium text-sky-400">{{ $property->category->name ?? '-' }}</p>
                 </div>
                 <div class="text-start">
                     <h5 class="my-2 text-5xl font-semibold text-sky-600">{{ $property['price'] }}</h5>
-                    <p class="text-3xl font-normal text-slate-400">{{ $property['name'] }}</p>
+                    <p class="text-3xl font-normal text-slate-400">{{ $property['title'] }}</p>
                     <p class="text-xl font-normal text-slate-400">{{ $property['location'] }}</p>
                 </div>
                 <button @click="isOn = !isOn"

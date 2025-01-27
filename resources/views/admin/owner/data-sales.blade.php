@@ -111,7 +111,15 @@
                     placeholder="+62 000 0000 0000" />
                 <x-textarea name="address" label="Alamat"
                     placeholder="Contoh: Jl. Danau Toba, Kec. Kedung Kandang, Kota Malang" />
-                <x-textfield name="place" label="Kota Penempatan" placeholder="Masukkan Nama Kota Anda" />
+                    <div>
+                        <label for="place" class="block text-sm font-medium text-gray-700">Kota Penempatan</label>
+                        <select name="place" id="place" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="">Pilih Kota</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 <x-textfield name="username" label="Username" placeholder="Masukkan Username anda" />
                 <x-textfield name="password" label="Password" placeholder="Masukkan Password anda" type="password" />
                 <div class="w-full flex gap-4 justify-end">

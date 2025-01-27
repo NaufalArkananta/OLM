@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->enum('certificate_type', ['SHM', 'HGB']);
-            $table->enum('certificate_image', ['video', 'photo']);
+            $table->string('certificate_url', 255);
             $table->timestamps();
         });
     }

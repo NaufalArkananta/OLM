@@ -9,141 +9,16 @@ use Illuminate\Support\Facades\Hash;
 
 class ownerUserController extends Controller
 {
-    public $data_sales = [
-        [
-            "id" => 1,
-            "username" => "Roberto Santoso",
-            "password" => "123",
-            "penempatan" => "Malang",
-            "last_active" => "2021-12-12",
-        ],
-        [
-            "id" => 2,
-            "username" => "Dewi Sari",
-            "password" => "456",
-            "penempatan" => "Surabaya",
-            "last_active" => "2022-01-10",
-        ],
-        [
-            "id" => 3,
-            "username" => "Ahmad Faisal",
-            "password" => "789",
-            "penempatan" => "Jakarta",
-            "last_active" => "2022-02-15",
-        ],
-        [
-            "id" => 4,
-            "username" => "Siti Aminah",
-            "password" => "abc",
-            "penempatan" => "Bandung",
-            "last_active" => "2022-03-20",
-        ],
-        [
-            "id" => 5,
-            "username" => "Budi Hartono",
-            "password" => "def",
-            "penempatan" => "Yogyakarta",
-            "last_active" => "2022-04-25",
-        ],
-        [
-            "id" => 6,
-            "username" => "Rina Wijaya",
-            "password" => "ghi",
-            "penempatan" => "Semarang",
-            "last_active" => "2022-05-30",
-        ],
-        [
-            "id" => 7,
-            "username" => "Andi Pratama",
-            "password" => "jkl",
-            "penempatan" => "Bali",
-            "last_active" => "2022-06-15",
-        ],
-        [
-            "id" => 8,
-            "username" => "Lina Susanti",
-            "password" => "mno",
-            "penempatan" => "Medan",
-            "last_active" => "2022-07-10",
-        ],
-        [
-            "id" => 9,
-            "username" => "Bukti Sales",
-            "password" => "mno",
-            "penempatan" => "Medan",
-            "last_active" => "2022-07-10",
-        ]
-    ];
-    public $data_validator = [
-        [
-            "id" => 1,
-            "username" => "Roberto Santoso",
-            "password" => "123",
-            "penempatan" => "Malang",
-            "last_active" => "2021-12-12",
-        ],
-        [
-            "id" => 2,
-            "username" => "Dewi Sari",
-            "password" => "456",
-            "penempatan" => "Surabaya",
-            "last_active" => "2022-01-10",
-        ],
-        [
-            "id" => 3,
-            "username" => "Ahmad Faisal",
-            "password" => "789",
-            "penempatan" => "Jakarta",
-            "last_active" => "2022-02-15",
-        ],
-        [
-            "id" => 4,
-            "username" => "Siti Aminah",
-            "password" => "abc",
-            "penempatan" => "Bandung",
-            "last_active" => "2022-03-20",
-        ],
-        [
-            "id" => 5,
-            "username" => "Budi Hartono",
-            "password" => "def",
-            "penempatan" => "Yogyakarta",
-            "last_active" => "2022-04-25",
-        ],
-        [
-            "id" => 6,
-            "username" => "Rina Wijaya",
-            "password" => "ghi",
-            "penempatan" => "Semarang",
-            "last_active" => "2022-05-30",
-        ],
-        [
-            "id" => 7,
-            "username" => "Andi Pratama",
-            "password" => "jkl",
-            "penempatan" => "Bali",
-            "last_active" => "2022-06-15",
-        ],
-        [
-            "id" => 8,
-            "username" => "Lina Susanti",
-            "password" => "mno",
-            "penempatan" => "Medan",
-            "last_active" => "2022-07-10",
-        ],
-        [
-            "id" => 9,
-            "username" => "Bukti Validators",
-            "password" => "mno",
-            "penempatan" => "Medan",
-            "last_active" => "2022-07-10",
-        ]
-    ];
-
     public function indexS()
     {
         $sales = User::with('city')->where('role', 'agent')->get();
-        return view("admin.owner.data-sales", compact("sales"));
+        $cities = City::orderBy('name')->get();
+        
+        return view("admin.owner.data-sales", 
+        [
+            'sales' => $sales,
+            'cities' => $cities
+        ]);
     }
 
     public function editS($id)
@@ -243,7 +118,13 @@ class ownerUserController extends Controller
     public function indexV()
     {
         $validators = User::with('city')->where('role', 'validator')->get();
-        return view("admin.owner.data-validator", compact("validators"));
+        $cities = City::orderBy('name')->get();
+            
+        return view("admin.owner.data-validator", 
+        [
+            'validators' => $validators,
+            'cities' => $cities
+        ]);
     }
 
     public function editV($id)
