@@ -22,9 +22,14 @@ class Property extends Model
         
     ];
 
-    public function user()
+    public function sales()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(PropertySales::class);
+    }
+
+    public function validator()
+    {
+        return $this->hasMany(PropertyValidation::class);
     }
 
     public function media()
@@ -45,7 +50,7 @@ class Property extends Model
     public function facilities()
     {
         return $this->belongsToMany(Facilities::class, 'property_facilities', 'property_id', 'facility_id')
-                    ->using(PropertyFacilities::class); // Menentukan model pivot khusus
+        ->using(PropertyFacilities::class);
     }
     
     public function wishlist()

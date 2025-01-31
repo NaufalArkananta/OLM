@@ -10,7 +10,14 @@ class agenController extends Controller
     //
     public function valid()
     {
-        $data_property = Property::where('status', 'verified')->with(['category', 'media', 'certificate', 'details'])->get();
+        $data_property = Property::whereHas('sales', function ($query) {
+            $query->where('status', 'verified');
+        })
+        ->whereHas('validator', function ($query) {
+            $query->where('status', 'approved');
+        })
+        ->with(['category', 'media', 'certificate', 'details'])->get();
+        
         return view("admin/agen/prop-active", compact("data_property"));
     }
     public function notValid() {

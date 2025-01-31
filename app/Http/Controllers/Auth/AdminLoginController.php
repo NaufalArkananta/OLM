@@ -13,14 +13,15 @@ class AdminLoginController extends Controller
     {
         // Validasi input
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'login' => 'required',
             'password' => 'required',
         ]);
     
-        // Coba login
-        if (Auth::attempt($credentials)) {
+        $field = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if (Auth::attempt([$field => $credentials['login'], 'password' => $credentials['password']])) {
             // Jika login berhasil, periksa role pengguna
-            $user = Auth::user();
+            $user = Auth::user();    
 
             // Simpan data ke session
             session([

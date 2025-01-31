@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class PropertySales extends Model
 {
@@ -16,14 +17,14 @@ class PropertySales extends Model
         'sale_status',  
     ];
 
-    public function property()
+    public function agent()
     {
-        return $this->hasMany(Property::class);
+        return $this->belongsTo(User::class, 'agent_id');
     }
 
-    public function user()
+    public function property()
     {
-        return $this->belongsTo(User::class, 'id', 'agent_id');
+        return $this->belongsTo(Property::class);
     }
 
     public function commision()

@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\PropertySales;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -65,7 +66,12 @@ class User extends Authenticatable
 
     public function validator()
     {
-        return $this->hasMany(PropertyValidation::class, ' id', 'validator_id');
+        return $this->hasMany(PropertyValidation::class);
+    }
+
+    public function propertySales()
+    {
+        return $this->hasMany(PropertySales::class);
     }
 
     public function commision()

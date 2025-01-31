@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Property;
+use App\Models\Facilities;
 use Illuminate\Http\Request;
+use App\Models\PropertyMedia;
+use App\Models\PropertyValidation;
+use App\Models\PropertyCertificates;
 
 class validatorController extends Controller
 {
@@ -136,12 +142,119 @@ class validatorController extends Controller
 
     public function validated()
     {
-        return view('admin.validator.prop-valid', ['data_property' => $this->data_property]);
+        $data_property = Property::whereHas('sales', function ($query) {
+            $query->where('status', 'verified');
+        })
+        ->with([
+            'category',
+            'media',
+            'certificate',
+            'details',
+            'sales.agent'
+        ])->get();
+        return view('admin.validator.prop-valid', compact('data_property'));
     }
 
     public function needValidate()
     {
-        return view('admin.validator.prop-need-valid', ['data_property' => $this->data_property]);
+        $data_property = Property::where('status', 'not verified')->get();
+    
+        foreach ($data_property as $property) {
+            $property->dokumentasi = PropertyMedia::where('property_id', $property->id)->pluck('media_url');
+            $property->sertifikat = PropertyCertificates::where('property_id', $property->id)->value('certificate_url');
+            $property->tipe_sertifikat = PropertyCertificates::where('property_id', $property->id)->value('certificate_type');
+        }
+    
+        $internalFacilities = Facilities::where('type', 'internal')->get();
+        $externalFacilities = Facilities::where('type', 'external')->get();
+    
+        return view('admin.validator.prop-need-valid', compact('data_property', 'internalFacilities', 'externalFacilities'));
+    }
+
+    public function validateProperty(Request $request)
+    {
+        // Validasi data yang diterima dari form
+        $validated = $request->validate([
+            'property_id' => 'required|exists:properties,id',
+        ]);
+
+        $userId = session('user_id');
+
+        if (!$userId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Session agen tidak ditemukan. Pastikan Anda sudah login.',
+            ], 401);
+        }
+
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Agen dengan ID ini tidak ditemukan di sistem.',
+            ], 404);
+        }
+
+        // Simpan data validasi ke tabel property_validations
+        PropertyValidation::create([
+            'property_id' => $validated['property_id'],
+            'validator_id' => $userId,
+            'status' => 'approved',
+            'comments' => ''
+        ]);
+
+        $property = Property::find($validated['property_id']);
+        if ($property) {
+            $property->status = 'verified';  // Ubah status properti menjadi verified
+            $property->save();
+        }
+
+        // Redirect ke halaman sebelumnya atau halaman lain dengan pesan sukses
+        return redirect()->back()->with('success', 'Properti berhasil divalidasi!');
+    }
+
+    public function rejectProperty(Request $request)
+    {
+        // Validasi data yang diterima dari form
+        $validated = $request->validate([
+            'property_id' => 'required|exists:properties,id',
+            'comments' => 'required|string', // Alasan wajib diisi
+        ]);
+
+        $userId = session('user_id');
+
+        if (!$userId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Session agen tidak ditemukan. Pastikan Anda sudah login.',
+            ], 401);
+        }
+
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Agen dengan ID ini tidak ditemukan di sistem.',
+            ], 404);
+        }
+
+        PropertyValidation::create([
+            'property_id' => $validated['property_id'],
+            'validator_id' => $userId,
+            'status' => 'rejected',
+            'comments' => $validated['comments']
+        ]);
+
+        // Update status properti menjadi 'rejected'
+        $property = Property::find($validated['property_id']);
+        if ($property) {
+            $property->status = 'verified';
+            $property->save();
+        }
+
+        return redirect()->back()->with('error', 'Properti telah ditolak!');
     }
     //
 }
