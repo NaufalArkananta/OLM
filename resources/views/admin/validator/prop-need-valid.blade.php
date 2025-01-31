@@ -3,16 +3,16 @@
         @foreach ($data_property as $property)
             <div x-data="{ isOn: false }"
                 class="p-4 bg-frost-white rounded-[10px] border border-slate-300 mb-4 relative w-96">
-                <img src="{{ $property['image'] }}"
+                <img src="{{ asset('storage/' . $property->media->first()->media_url) }}"
                     class="object-cover w-full h-[210px] rounded-[8px] border border-slate-300"
-                    alt="{{ $property['name'] }}">
+                    alt="{{ $property->title }}">
                 <div class="rounded-[8px] bg-customBlue-250 px-3 py-2 my-3 w-fit">
-                    <p class="text-xl font-medium text-sky-400">{{ $property['type'] }}</p>
+                    <p class="text-xl font-medium text-sky-400">{{ $property->category->name }}</p>
                 </div>
                 <div class="text-start">
-                    <h5 class="my-2 text-5xl font-semibold text-sky-600">{{ $property['price'] }}</h5>
-                    <p class="text-3xl font-normal text-slate-400">{{ $property['name'] }}</p>
-                    <p class="text-xl font-normal text-slate-400">{{ $property['location'] }}</p>
+                    <h5 class="my-2 text-5xl font-semibold text-sky-600">{{ $property->price }}</h5>
+                    <p class="text-3xl font-normal text-slate-400">{{ $property->title }}</p>
+                    <p class="text-xl font-normal text-slate-400">{{ $property->location }}</p>
                 </div>
                 <button @click="isOn = !isOn"
                     class="absolute p-2 rounded-md top-6 right-6 backdrop-blur-sm bg-white/30">
@@ -78,13 +78,14 @@
                         </g>
                     </svg>
                 </button>
+                @foreach ($property->sales as $sale)
                 <div class="space-y-4">
                     <div class="flex gap-4">
-                        <img src="{{ $property['sales_pic'] }}" alt="{{ $property['sales_name'] }}"
+                        <img src="{{ $property['sales_pic'] }}" alt="{{ $sale->agent->name }}"
                             class="h-[100px] w-[100px] rounded-[50%] border border-slate-300">
                         <div class="flex flex-col gap-1 justify-center font-poppins ">
-                            <h1 class="text-3xl ">{{ $property['sales_name'] }}</h1>
-                            <p>{{ $property['sales_role'] }}</p>
+                            <h1 class="text-3xl ">{{ $sale->agent->name }}</h1>
+                            <p>{{ $sale->agent->role }}</p>
                         </div>
                     </div>
                     <div class="flex justify-between font-poppins ">
@@ -92,29 +93,36 @@
                             Tanggal Request
                         </h1>
                         <h1>
-                            {{ $property['request_date'] }}
+                            {{ $property->created_at }}
                         </h1>
                     </div>
-                    <x-button class="mt-4 w-full" onclick="openValidateModal()">Validasi</x-button>
+                    <x-button class="mt-4 w-full" onclick="openValidateModal({{ $property->id }})">Validasi</x-button>
                 </div>
             </div>
-        @endforeach
+            @endforeach
     </section>
-    <div id="modal-validate"
-        class="hidden fixed inset-0 flex items-center justify-center bg-black overflow-hidden bg-opacity-50"
-        onclick="closeValidateModal(event)">
-        <div class="bg-transparent rounded-lg w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative  scrollbar-hide">
-            <x-admin.validate-popup :property="$property"></x-admin.validate-popup>
+        <div id="modal-validate-{{ $property->id }}"
+            class="hidden fixed inset-0 flex items-center justify-center bg-black overflow-hidden bg-opacity-50"
+            onclick="closeValidateModal(event)">
+            <div class="bg-transparent rounded-lg w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative  scrollbar-hide">
+                <x-admin.validate-popup
+                    :property="$property"
+                    :fasilitasInter="$internalFacilities"
+                    :fasilitasExter="$externalFacilities"
+                    :dokumentasi="$property->dokumentasi"
+                    :sertifikat="$property->sertifikat"
+                    :tipeSertifikat="$property->tipe_sertifikat" />
+            </div>
         </div>
-    </div>
+    @endforeach
     <script>
-        function openValidateModal() {
-            document.getElementById('modal-validate').classList.remove('hidden');
+        function openValidateModal(propertyId) {
+            document.getElementById('modal-validate-' + propertyId).classList.remove('hidden');
         }
 
-        function closeValidateModal(event) {
-            if (event.target === event.currentTarget) {
-                document.getElementById('modal-validate').classList.add('hidden');
+        function closeValidateModal(event, propertyId) {
+            if (event.target === 'modal-validate-' + propertyId) {
+                document.getElementById('modal-validate-' + propertyId).classList.add('hidden');
             }
         }
     </script>

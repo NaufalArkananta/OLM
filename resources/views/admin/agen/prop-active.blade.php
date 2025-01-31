@@ -11,7 +11,7 @@
                 </div>
                 <div class="text-start">
                     <h5 class="my-2 text-5xl font-semibold text-sky-600">{{ $property['price'] }}</h5>
-                    <p class="text-3xl font-normal text-slate-400">{{ $property['title'] }}</p>
+                    <p class="text-3xl font-normal text-slate-400">{{ $property['description'] }}</p>
                     <p class="text-xl font-normal text-slate-400">{{ $property['location'] }}</p>
                 </div>
                 <button @click="isOn = !isOn"

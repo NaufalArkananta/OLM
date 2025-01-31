@@ -2,22 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PropertyMedia;
+use App\Models\PropertySales;
 use App\Models\DetailProperty;
-use App\Models\PropertyCertificates;
 use App\Models\PropertyFacilities;
 use Illuminate\Support\Facades\DB;
+use App\Models\PropertyCertificates;
 use Illuminate\Support\Facades\Validator;
 
 class propertiController extends Controller
 {
     public function index()
     {
-        $data_property = Property::all();
-        return view('properti', compact('data_property'));
+        $data_property = Property::whereHas('sales', function ($query) {
+            $query->where('status', 'verified');
+        })
+        ->whereHas('validator', function ($query) {
+            $query->where('status', 'approved');
+        })
+        ->with([
+            'category',
+            'media',
+            'certificate',
+            'details',
+            'sales.agent'
+        ])->get();
+    
+    return view('properti', compact('data_property'));
     }
 
     public function create()
@@ -193,7 +208,34 @@ class propertiController extends Controller
                 ]);
             }
     
-    
+            // Ambil agen ID dari session
+            $userId = session('user_id');
+
+            if (!$userId) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Session agen tidak ditemukan. Pastikan Anda sudah login.',
+                ], 401);
+            }
+
+            // Cari user berdasarkan ID dari session
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Agen dengan ID ini tidak ditemukan di sistem.',
+                ], 404);
+            }
+
+            // Simpan ke tabel `property_sales`
+            PropertySales::create([
+                'property_id' => $property->id,
+                'agent_id' => $userId,
+                'commission' => 0,
+                'sale_status' => 'in progress',
+            ]);
+
             // Commit transaksi jika semua berhasil
             DB::commit();
     

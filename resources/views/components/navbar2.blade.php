@@ -72,7 +72,10 @@
                       d="M12.7071 7.29289C13.0976 7.68342 13.0976 8.31658 12.7071 8.70711L9.41421 12L12.7071 15.2929C13.0976 15.6834 13.0976 16.3166 12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L7.29289 12.7071C6.90237 12.3166 6.90237 11.6834 7.29289 11.2929L11.2929 7.29289C11.6834 6.90237 12.3166 6.90237 12.7071 7.29289Z"
                       fill="#121212" />
                   </svg>
-                  <p class="text-lg text-slate-950">Keluar</p>
+                  <p class="text-lg text-slate-950">Keluar</p>  <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf <!-- Token CSRF untuk keamanan -->
+                    <button type="submit">Logout</button>
+                </form>
                 </x-button>
               </div>
             </div>

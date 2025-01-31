@@ -1,27 +1,8 @@
-@props([
-    'nama_daerah' => '',
-    'location' => '',
-    'nama_kawasan' => '',
-    'name' => '',
-    'price' => '',
-    'deskripsi' => '',
-    'luas_tanah' => '',
-    'luas_bangunan' => '',
-    'daya_listrik' => '',
-    'jumlah_lantai' => '',
-    'jumlah_kamar_tidur' => '',
-    'jumlah_kamar_mandi' => '',
-    'fasilitas_inter' => [],
-    'fasilitas_exter' => [],
-    'dokumentasi' => [],
-    'sertifikat' => '',
-    'tipe_sertifikat' => '',
-    'tipe_perjanjian' => '',
-])
+@props(['property', 'fasilitasInter', 'fasilitasExter', 'dokumentasi', 'sertifikat', 'tipeSertifikat'])
 
 @php
-    $buttonBeliColor = $tipe_perjanjian === 'BELI' ? 'bg-[#0369A140] text-sky-400' : 'bg-slate-200';
-    $buttonSewaColor = $tipe_perjanjian === 'SEWA' ? 'bg-[#0369A140] text-sky-400' : 'bg-slate-200';
+    $buttonBeliColor = $property->agreement_type === 'BELI' ? 'bg-[#0369A140] text-sky-400' : 'bg-slate-200';
+    $buttonSewaColor = $property->agreement_type === 'SEWA' ? 'bg-[#0369A140] text-sky-400' : 'bg-slate-200';
 @endphp
 <section class="bg-white border border-slate-200 rounded-lg p-5 gap-7 flex flex-col">
     <div>
@@ -46,9 +27,9 @@
                     </h1>
                 </div>
                 <div class="flex flex-col gap-7 text-2xl text-slate-600">
-                    <h1>{{ $nama_daerah }}</h1>
-                    <h1>{{ $location }}</h1>
-                    <h1>{{ $nama_kawasan }}</h1>
+                    <h1>{{ $property->details->region }}</h1>
+                    <h1>{{ $property->details->address }}</h1>
+                    <h1>{{ $property->details->area }}</h1>
                 </div>
             </div>
         </div>
@@ -62,9 +43,9 @@
                 class="p-2 font-semibold bg-opacity-50 text-center duration-300 border rounded-lg lg:px-10 bg-slate-200 border-slate-300 {{ $buttonSewaColor }}">Sewa
             </button>
         </div>
-        <h1 class="text-sky-600 font-semibold text-5xl">{{ $price }}</h1>
-        <h1 class="font-semibold text-3xl">{{ $name }}</h1>
-        <p class="text-slate-600 text-2xl">{{ $deskripsi }}</p>
+        <h1 class="text-sky-600 font-semibold text-5xl">{{ $property->price }}</h1>
+        <h1 class="font-semibold text-3xl">{{ $property->title }}</h1>
+        <p class="text-slate-600 text-2xl">{{ $property->description }}</p>
     </div>
     <div class="bg-frost-white p-5 rounded-lg flex flex-col gap-5">
         <h1 class="font-semibold text-4xl">Detail Properti</h1>
@@ -81,9 +62,9 @@
                 </h1>
             </div>
             <div class="flex flex-col gap-7 text-2xl text-slate-600">
-                <h1>{{ $luas_tanah }}</h1>
-                <h1>{{ $luas_bangunan }}</h1>
-                <h1>{{ $daya_listrik }}</h1>
+                <h1>{{ $property->details->land_area }}</h1>
+                <h1>{{ $property->details->building_area }}</h1>
+                <h1>{{ $property->details->electricity_power }}</h1>
             </div>
             <div class="flex flex-col gap-7 font-medium text-2xl text-slate-800">
                 <h1>
@@ -97,9 +78,9 @@
                 </h1>
             </div>
             <div class="flex flex-col gap-7 text-2xl text-slate-600">
-                <h1>{{ $jumlah_lantai }}</h1>
-                <h1>{{ $jumlah_kamar_tidur }}</h1>
-                <h1>{{ $jumlah_kamar_mandi }}</h1>
+                <h1>{{ $property->details->number_of_floors }}</h1>
+                <h1>{{ $property->details->bedrooms }}</h1>
+                <h1>{{ $property->details->bathrooms }}</h1>
             </div>
         </div>
     </div>
@@ -112,13 +93,13 @@
             </div>
             <div class="flex flex-col gap-5">
                 <div class="flex gap-2">
-                    @foreach ($fasilitas_inter as $fasilitas)
-                        <div class="bg-slate-200 p-2 rounded-lg">{{ $fasilitas }}</div>
+                    @foreach ( $fasilitasInter as $facility)
+                        <div class="bg-slate-200 p-2 rounded-lg">{{ $facility->name }}</div>
                     @endforeach
                 </div>
                 <div class="flex gap-2">
-                    @foreach ($fasilitas_exter as $fasilitas)
-                        <div class="bg-slate-200 p-2 rounded-lg">{{ $fasilitas }}</div>
+                    @foreach ( $fasilitasExter as $facility)
+                        <div class="bg-slate-200 p-2 rounded-lg">{{ $facility->name }}</div>
                     @endforeach
                 </div>
             </div>
@@ -127,24 +108,29 @@
     <div class="bg-frost-white p-5 rounded-lg flex flex-col gap-5">
         <h1 class="font-semibold text-4xl">Dokumentasi</h1>
         <div class="grid grid-rows-1 grid-cols-3 gap-5">
-            @foreach ($dokumentasi as $dokumentasi)
-                <img src={{ $dokumentasi }} alt="dokumentasi" class="rounded-lg " />
+            @foreach ($dokumentasi as $dok)
+                <img src={{ asset('storage/' . $dok) }} alt="dokumentasi" class="rounded-lg " />
             @endforeach
         </div>
     </div>
     <div class="bg-frost-white p-5 rounded-lg flex flex-col gap-5">
         <h1 class="font-semibold text-4xl">Sertifikat</h1>
         <div class="flex gap-7">
-            <img src={{ $sertifikat }} alt="" class="rounded-lg">
+            <img src={{ asset('storage/' . $sertifikat) }} alt="" class="rounded-lg">
             <div class="flex gap-16 text-2xl">
                 <h1 class="font-semibold">Tipe Sertifikat</h1>
-                <h1>{{ $tipe_sertifikat }}</h1>
+                <h1>{{ $tipeSertifikat }}</h1>
             </div>
         </div>
     </div>
     <div class="gap-7 w-full flex justify-end">
         <x-button color="secondary" onclick="openDeclineModal()">Tolak</x-button>
-        <x-button color="primary" onclick="dummy()">Terima</x-button>
+        <form action="{{ route('property.validate') }}" method="POST">
+            @csrf
+            <input type="hidden" name="property_id" value="{{ $property->id }}">
+            <x-button  color="primary" type="submit">Terima</x-button>
+        </form>
+        {{-- <x-button color="primary" onclick="submitValidation({{ $property->id }})">Terima</x-button> --}}
     </div>
 </section>
 <div id="decline-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50">
@@ -155,12 +141,16 @@
             <p class="text-xl">Berikan alasan dibawah ini, mengapa properti ditolak</p>
         </div>
         <div class="border border-slate-200"></div>
-        <x-textarea placeholder="Tuliskan Alasan Anda Disini" class="h-40 w-full" name="alasan"
-            label="Alasan Penolakan"></x-textarea>
-        <div class="flex justify-end gap-4">
-            <x-button color="white" onclick="closeDeclineModal(event)">Batal</x-button>
-            <x-button color="danger" onclick="dummy()">Tolak Properti</x-button>
-        </div>
+        <form action="{{ route('reject.property') }}" method="POST">
+            @csrf
+            <input type="hidden" name="property_id" value="{{ $property->id }}">
+            <x-textarea placeholder="Tuliskan Alasan Anda Disini" class="h-40 w-full" name="comments"
+                label="Alasan Penolakan"></x-textarea>
+            <div class="flex justify-end gap-4 mt-4">
+                <x-button color="white" type="button" onclick="closeDeclineModalBatal()">Batal</x-button>
+                <x-button color="danger" type="submit">Tolak Properti</x-button>
+            </div>
+        </form>
     </div>
     <script>
         function openDeclineModal() {
@@ -172,7 +162,7 @@
             document.getElementById('decline-modal').classList.add('hidden');
         }
 
-        function dummy() {
-            location.reload();
+        function closeDeclineModalBatal() {
+            document.getElementById('decline-modal').classList.add('hidden');
         }
     </script>

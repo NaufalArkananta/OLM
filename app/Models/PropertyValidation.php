@@ -17,8 +17,13 @@ class PropertyValidation extends Model
         'comments',  
     ];
 
+    public function validator()
+    {
+        return $this->belongsTo(User::class, 'validator_id');
+    }
+
     public function property()
     {
-        return $this->belongsTo(User::class, 'id', 'validator_id');
+        return $this->belongsTo(Property::class);
     }
 }

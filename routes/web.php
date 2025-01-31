@@ -44,15 +44,25 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
 });
 
 // route for agen dashboard
-Route::middleware(['auth', 'role:agent', 'verified'])->group(function () {
+Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/admin/agen/dashboard', [AgentController::class, 'index'])->name('admin.agen.dashboard');
     Route::get('/admin/agen/prop/tambah', [AgentController::class, 'create'])->name('properties.create');
+    Route::get('/admin/agen/prop/active', [agenController::class, 'valid'])->name('properti.list');
+    Route::get('/admin/agen/prop/not-valid', [agenController::class, 'notValid'])->name('properti.list.not-valid');
+    Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
 });
 Route::post('/property/create', [PropertiController::class, 'store'])->name('properties.store');
 
 // route for validator dashboard
-Route::middleware(['auth', 'role:validator', 'verified'])->group(function () {
+Route::middleware(['auth', 'role:validator'])->group(function () {
     Route::get('/admin/validator/dashboard', [validatorController::class, 'index'])->name('admin.validator.dashboard');
+    Route::prefix('admin/validator')->group(function () {
+        Route::get('/prop-need-validate', [validatorController::class, 'needValidate']);
+        Route::get('/prop-validated', [validatorController::class, 'validated']);
+        Route::post('/property/validate', [validatorController::class, 'validateProperty'])->name('property.validate');
+        Route::post('/reject-property', [validatorController::class, 'rejectProperty'])->name('reject.property');
+
+    });
 });
 
 // route for api auth for admin
@@ -80,26 +90,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('profile');
     });
 });
-Route::get('/wishlist', function () {
-    return view('wishlist');
-});
-Route::get('/properti', function () {
-    return view('properti');
-});
-
-Route::get('/panduan', function () {
-    return view('panduan');
-});
-
-
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/properti', [propertiController::class, 'index']);
 Route::get('/wishlist', [propertiController::class, 'wishlist']);
 Route::get('/properti/{id}', [propertiController::class, 'detail'])->name('properti.detail');
-Route::get('/admin/agen/prop/active', [agenController::class, 'valid'])->name('properti.list');
-Route::get('/admin/agen/prop/not-valid', [agenController::class, 'notValid'])->name('properti.list.not-valid');
-Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
 
 Route::prefix('admin/owner')->group(function () {
     Route::get('/prop-active', [newOwnerController::class, 'activeProp']);
@@ -108,10 +103,6 @@ Route::prefix('admin/owner')->group(function () {
     Route::get('/table-prop', [newOwnerController::class, 'tableProp']);
 });
 
-Route::prefix('admin/validator')->group(function () {
-    Route::get('/prop-need-validate', [validatorController::class, 'needValidate']);
-    Route::get('/prop-validated', [validatorController::class, 'validated']);
-});
 
 Route::get('admin/validator/test1', function () {
     return view('admin.validator.validate-popup');

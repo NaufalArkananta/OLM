@@ -15,8 +15,8 @@
           <form class="space-y-4 md:space-y-6"  action="{{ route('admin.login') }}" method="POST">
             @csrf
             <div>
-              <label for="email" class="block mb-2 text-xl font-normal text-gray-900">Username / Email</label>
-              <input type="email" name="email" id="email"
+              <label for="login" class="block mb-2 text-xl font-normal text-gray-900">Username / Email</label>
+              <input type="text" name="login" id="login"
                 class="bg-gray-50 border border-slate-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 placeholder:text-slate-400 placeholder:font-normal"placeholder="Masukkan Username/Email Anda"
                 required>
             </div>
