@@ -102,4 +102,7 @@ class newOwnerController extends Controller
         $data_property = $this->data_property;
         return view('admin.owner.table-prop', compact("data_property"));
     }
+    public function settings() {
+        return view('admin.owner.settings');
+    }
 }

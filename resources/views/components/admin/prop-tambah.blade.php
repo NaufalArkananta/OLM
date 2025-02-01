@@ -1,6 +1,6 @@
 <section class="w-full flex flex-col gap-6">
 
-        <form action="{{ route('properties.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('properties.store') }}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col gap-6">
             @csrf
         <div class="mx-auto max-w-5xl w-full p-5 rounded-lg bg-frost-white flex flex-col gap-5 border border-slate-300">
             <h1 class="font-poppins font-semibold text-4xl">Lokasi</h1>
@@ -60,10 +60,13 @@
                 <x-textarea label="Deskripsi" name="description"
                     placeholder="Tambahkan Deskripsi untuk properti anda"></x-textarea>
                 <x-textfield label="Harga" name="price" placeholder="RP 1xx.xxx.xxx"></x-textfield>
+                <x-textfield label="Komisi Yang Didapat (x %)" name="commission" value="0" type="number" disable></x-textfield>
+                <x-textfield label="Pemilik" name="owner" placeholder="Masukkan Nama Owner"></x-textfield>
+                <x-textfield label="Nomor Pemilik" name="phone-number" placeholder="Masukkan Nomor Owner"></x-textfield>
             </div>
         </div>
         <div
-            class="mx-auto max-w-5xl w-full p-5 rounded-lg bg-frost-white flex flex-col gap-5 border border-slate-300">
+            class="mx-auto max-w-5xl w-full p-5 rounded-lg mt-4 bg-frost-white flex flex-col gap-5 border border-slate-300">
             <h1 class="font-poppins font-semibold text-4xl">Detail Properti</h1>
             <div class="flex justify-around gap-8">
                 <div class="w-full flex flex-col gap-6">
@@ -130,7 +133,7 @@
                         <input type="file" id="dokumentasi" name="dokumentasi[]" multiple
                             accept="image/*,video/*"
                             class="hidden">
-                    </label>                
+                    </label>
                 </div>
             </div>
         </div>

@@ -101,6 +101,7 @@ Route::prefix('admin/owner')->group(function () {
     Route::get('/prop-selled', [newOwnerController::class, 'selledProp']);
     Route::get('/prop-need-validate', [newOwnerController::class, 'needValidateProp']);
     Route::get('/table-prop', [newOwnerController::class, 'tableProp']);
+    Route::get('/settings', [newOwnerController::class, 'settings']);
 });
 
 
