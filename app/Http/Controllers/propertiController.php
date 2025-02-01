@@ -251,10 +251,24 @@ class propertiController extends Controller
             ], 500);
         }
     }   
-
     public function show($id)
     {
-        $property = Property::findOrFail($id);
+        $property = Property::where('id', $id)
+            ->whereHas('sales', function ($query) {
+                $query->where('status', 'verified');
+            })
+            ->whereHas('validator', function ($query) {
+                $query->where('status', 'approved');
+            })
+            ->with([
+                'category',
+                'media',
+                'certificate',
+                'details',
+                'sales.agent'
+            ])
+            ->firstOrFail(); // Ambil satu objek, bukan koleksi
+    
         return view('detail-properti', compact('property'));
     }
 
