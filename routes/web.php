@@ -85,7 +85,7 @@ Route::post('/logout', function () {
     session()->forget('role'); // Hapus role dari session
     return redirect('/');
 })->name('logout');
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', function () {
         return view('profile');
     });
@@ -94,7 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/properti', [propertiController::class, 'index']);
 Route::get('/wishlist', [propertiController::class, 'wishlist']);
-Route::get('/properti/{id}', [propertiController::class, 'detail'])->name('properti.detail');
+Route::get('/properti/{id}', [propertiController::class, 'show'])->name('properti.detail');
 
 Route::prefix('admin/owner')->group(function () {
     Route::get('/prop-active', [newOwnerController::class, 'activeProp']);
