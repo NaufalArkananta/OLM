@@ -18,8 +18,10 @@
             <img src="{{ asset('img/aziiz_image.png') }}" alt="profile"
               class="rounded-[8px] border border-slate-300 w-full h-[140px] sm:h-[160px] md:h-[200px] lg:h-[296px] object-cover">
             <div>
-              <x-button size="lg" color="secondary" type="button" class="w-full lg:mt-6">Pilih
-                foto</x-button>
+            <input type="file" id="profile_picture" name="profile_picture" class="hidden">
+            <label for="profile_picture" class="w-full lg:mt-6">
+                <div class="bg-customBlue-50 hover:bg-customBlue-100 text-sky-400 font-medium duration-300 border border-sky-400 focus:ring focus:ring-sky-200 rounded-[8px] p-2 text-center cursor-pointer mt-2">Pilih Foto</div>
+            </label>
               <p class="mt-4 text-base font-normal lg:mt-6 lg:text-lg text-slate-600">Besar file: maksimum 10 Megabytes.
                 Ekstensi file yang
                 diperbolehkan: .JPG .JPEG .PNG</p>
