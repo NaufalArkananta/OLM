@@ -38,16 +38,27 @@ class ownerUserController extends Controller
         // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'number' => 'required|string', //|regex:/^\+62[0-9]{10,14}$/
+            'number' => 'required|string', //|regex:/^\+62[0-9]{10,14}$/ 
             'address' => 'required|string|max:500', // Validasi alamat
             'place' => 'required|string|exists:cities,name', // Validasi nama kota
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
-
+    
         // Mencari city_id berdasarkan nama kota
         $city = City::where('name', $request->place)->first();
-
+    
+        if (!$city) {
+            return back()->withErrors(['place' => 'Kota tidak ditemukan.'])->withInput();
+        }
+    
+        // Cek apakah sudah ada user yang terdaftar di kota ini
+        $existingUser = User::where('city_id', $city->id)->exists();
+    
+        if ($existingUser) {
+            return back()->withErrors(['place' => 'Sudah ada user yang terdaftar di kota ini.'])->withInput();
+        }
+    
         // Buat pengguna baru
         User::create([
             'name' => $request->name,
@@ -58,9 +69,9 @@ class ownerUserController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'agent',
         ]);
-
-        return redirect()->route('admin.sales.index')->with('success', 'User  created successfully.');
-    }
+    
+        return redirect()->route('admin.sales.index')->with('success', 'User created successfully.');
+    }    
 
     public function show($id)
     {
@@ -78,43 +89,49 @@ class ownerUserController extends Controller
         // Validasi input
         $request->validate([
             'edit-name' => 'nullable|string|max:255',
-            'edit-number' => 'nullable|string|max:15', // Sesuaikan dengan format nomor telepon
+            'edit-number' => 'nullable|string|max:15|regex:/^[0-9]+$/', // Hanya angka
             'edit-address' => 'nullable|string|max:255',
-            'edit-username' => 'nullable|string|max:50',
+            'edit-username' => 'nullable|string|max:50|unique:users,username,' . $id, // Cek username unik kecuali dirinya sendiri
             'edit-city' => 'nullable|string|max:255',
         ]);
-
+    
         // Temukan agen berdasarkan ID
         $agent = User::find($id);
-
         if (!$agent) {
             return response()->json(['error' => 'Agent not found'], 404);
         }
-
+    
         // Cari kota berdasarkan nama
         $cityName = $request->input('edit-city');
-        $city = City::where('name', $cityName)->first(); // Ganti 'name' dengan kolom yang sesuai di tabel cities
-
-        if ($city) {
-            $agent->city_id = $city->id; // Ambil ID kota
-        } else {
+        $city = City::where('name', $cityName)->first();
+    
+        if (!$city) {
             return response()->json(['error' => 'City not found'], 404);
         }
-
+    
+        // Cek apakah kota yang dipilih sama dengan yang sudah ada
+        if ($agent->city_id === $city->id) {
+            return response()->json(['error' => 'Agent is already assigned to this city'], 422);
+        }
+    
+        // Cek apakah kota sudah memiliki agen lain
+        $existingAgent = User::where('city_id', $city->id)->where('id', '!=', $id)->exists();
+        if ($existingAgent) {
+            return response()->json(['error' => 'Another agent is already assigned to this city'], 422);
+        }
+    
         // Update data agen
-        $agent->name = $request->input('edit-name');
-        $agent->phone_number = $request->input('edit-number');
-        $agent->address = $request->input('edit-address');
-        $agent->username = $request->input('edit-username');
-
-        // Simpan perubahan
-        $agent->save();
-        
-        $role = $agent->role;
-
+        $agent->update([
+            'name' => $request->input('edit-name', $agent->name),
+            'phone_number' => $request->input('edit-number', $agent->phone_number),
+            'address' => $request->input('edit-address', $agent->address),
+            'username' => $request->input('edit-username', $agent->username),
+            'city_id' => $city->id,
+        ]);
+    
         return response()->json(['success' => 'Updated successfully']);
-        
     }
+    
     public function indexV()
     {
         $validators = User::with('city')->where('role', 'validator')->get();
