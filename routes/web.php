@@ -53,6 +53,8 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 });
 Route::post('/property/create', [PropertiController::class, 'store'])->name('properties.store');
 
+Route::get("/admin/agen/notif", [AgenController::class, 'notif'])->name('agen.notif');
+
 // route for validator dashboard
 Route::middleware(['auth', 'role:validator'])->group(function () {
     Route::get('/admin/validator/dashboard', [validatorController::class, 'index'])->name('admin.validator.dashboard');
@@ -96,7 +98,7 @@ Route::get('/properti', [propertiController::class, 'index']);
 Route::get('/wishlist', [propertiController::class, 'wishlist']);
 Route::get('/properti/{id}', [propertiController::class, 'show'])->name('properti.detail');
 
-Route::prefix('admin/owner')->group(function () {
+Route::prefix('/admin/owner')->group(function () {
     Route::get('/prop-active', [newOwnerController::class, 'activeProp']);
     Route::get('/prop-selled', [newOwnerController::class, 'selledProp']);
     Route::get('/prop-need-validate', [newOwnerController::class, 'needValidateProp']);
