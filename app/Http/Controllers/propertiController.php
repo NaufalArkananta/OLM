@@ -55,6 +55,8 @@ public function index()
             'area' => 'nullable|string|max:255',
             'agreement_type' => 'required|in:BELI,SEWA',
             'category_id' => 'required|exists:property_categories,id',
+            'property_owner_name' => 'required|string|max:255',
+            'property_owner_number_phone' => 'required|string|regex:/^[0-9]+$/|min:10|max:15',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
@@ -97,6 +99,8 @@ public function index()
         try {
             // Simpan data ke tabel `properties`
             $property = Property::create([
+                'property_owner_name' => $request->property_owner_name,
+                'property_owner_number_phone' => $request->property_owner_number_phone,
                 'title' => $request->title,
                 'category_id' => $request->category_id,
                 'description' => $request->description,

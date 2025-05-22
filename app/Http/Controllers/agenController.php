@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifications;
 use App\Models\Property;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class agenController extends Controller
@@ -131,6 +133,27 @@ class agenController extends Controller
             ],
         ];
 
-        return view("admin/agen/notif", compact("data_notif"));
+        $userId = session('user_id');
+
+        if (!$userId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Session agen tidak ditemukan. Pastikan Anda sudah login.',
+            ], 401);
+        }
+
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Agen dengan ID ini tidak ditemukan di sistem.',
+            ], 404);
+        }
+
+        $notifications = Notifications::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+
+
+        return view("admin.agen.notif", compact("notifications"));
     }
 }

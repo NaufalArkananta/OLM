@@ -51,11 +51,11 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/admin/agen/prop/active', [agenController::class, 'valid'])->name('properti.list');
     Route::get('/admin/agen/prop/not-valid', [agenController::class, 'notValid'])->name('properti.list.not-valid');
     Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
+    Route::get("/admin/agen/notif", [AgenController::class, 'notif'])->name('agen.notif');
 });
 
 Route::post('/property/create', [PropertiController::class, 'store'])->name('properties.store');
 
-Route::get("/admin/agen/notif", [AgenController::class, 'notif'])->name('agen.notif');
 
 // route for validator dashboard
 Route::middleware(['auth', 'role:validator'])->group(function () {
