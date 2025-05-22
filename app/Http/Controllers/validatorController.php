@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Property;
 use App\Models\Facilities;
+use App\Models\Notifications;
 use Illuminate\Http\Request;
 use App\Models\PropertyMedia;
 use App\Models\PropertyValidation;
 use App\Models\PropertyCertificates;
+use App\Models\PropertySales;
 
 class validatorController extends Controller
 {
@@ -210,6 +212,16 @@ class validatorController extends Controller
             $property->save();
         }
 
+        $sale = PropertySales::where('property_id', $validated['property_id'])->first();
+
+            if ($sale) {
+                Notifications::create([
+                    'user_id' => $sale->agent_id,
+                    'message' => "Properti '{$property->title}' telah disetujui oleh validator.",
+                    'status' => 'unread',
+                ]);
+            }
+
         // Redirect ke halaman sebelumnya atau halaman lain dengan pesan sukses
         return redirect()->back()->with('success', 'Properti berhasil divalidasi!');
     }
@@ -253,6 +265,17 @@ class validatorController extends Controller
             $property->status = 'verified';
             $property->save();
         }
+
+        $sale = PropertySales::where('property_id', $validated['property_id'])->first();
+
+        if ($sale) {
+            Notifications::create([
+                'user_id' => $sale->agent_id,
+                'message' => "Properti '{$property->title}' telah ditolak oleh validator. Alasan: " . $validated['comments'],
+                'status' => 'unread',
+            ]);
+        }
+
 
         return redirect()->back()->with('error', 'Properti telah ditolak!');
     }

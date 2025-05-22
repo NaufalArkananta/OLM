@@ -1,7 +1,8 @@
 <section class="w-full flex flex-col gap-6">
 
-        <form action="{{ route('properties.store') }}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col gap-6">
-            @csrf
+    <form action="{{ route('properties.store') }}" method="POST" enctype="multipart/form-data"
+        class="w-full flex flex-col gap-6">
+        @csrf
         <div class="mx-auto max-w-5xl w-full p-5 rounded-lg bg-frost-white flex flex-col gap-5 border border-slate-300">
             <h1 class="font-poppins font-semibold text-4xl">Lokasi</h1>
             <div class="flex gap-20">
@@ -42,7 +43,8 @@
                             @foreach ($propertyCategories as $category)
                                 <label
                                     class="p-2 text-center duration-300 border rounded-lg lg:px-10 bg-slate-200 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:ring-2 focus:ring-sky-100 focus:text-white border-slate-300 cursor-pointer has-[:checked]:bg-sky-400 has-[:checked]:text-white">
-                                    <input type="radio" name="category_id" value="{{ $category->id }}" class="hidden peer">
+                                    <input type="radio" name="category_id" value="{{ $category->id }}"
+                                        class="hidden peer">
                                     {{ $category->name }}
                                 </label>
                             @endforeach
@@ -60,7 +62,8 @@
                 <x-textarea label="Deskripsi" name="description"
                     placeholder="Tambahkan Deskripsi untuk properti anda"></x-textarea>
                 <x-textfield label="Harga" name="price" placeholder="RP 1xx.xxx.xxx"></x-textfield>
-                <x-textfield label="Komisi Yang Didapat (x %)" name="commission" value="0" type="number" disable></x-textfield>
+                <x-textfield label="Komisi Yang Didapat (x %)" name="commission" value="0" type="number"
+                    disable></x-textfield>
                 <x-textfield label="Pemilik" name="owner" placeholder="Masukkan Nama Owner"></x-textfield>
                 <x-textfield label="Nomor Pemilik" name="phone-number" placeholder="Masukkan Nomor Owner"></x-textfield>
             </div>
@@ -70,22 +73,21 @@
             <h1 class="font-poppins font-semibold text-4xl">Detail Properti</h1>
             <div class="flex justify-around gap-8">
                 <div class="w-full flex flex-col gap-6">
-                    <x-textfield label="Luas Tanah" name="land_area"
-                        placeholder="Masukkan Luas Tanah (m)"></x-textfield>
+                    <x-textfield label="Luas Tanah" name="land_area" placeholder="Masukkan Luas Tanah (m)"
+                        type="number"></x-textfield>
                     <x-textfield label="Daya Listrik" name="electricity_power"
                         placeholder="Masukkan Daya Listrik (Watt)"></x-textfield>
                     <x-numberinput label="Kamar Tidur" name="bedrooms"></x-numberinput>
                 </div>
                 <div class="w-full flex flex-col gap-6">
-                    <x-textfield label="Luas Bangunan" name="building_area"
-                        placeholder="Masukkan Luas Bangunan (m)"></x-textfield>
+                    <x-textfield label="Luas Bangunan" name="building_area" placeholder="Masukkan Luas Bangunan (m)"
+                        type="number"></x-textfield>
                     <x-numberinput label="Jumlah Lantai" name="number_of_floors"></x-numberinput>
                     <x-numberinput label="Kamar Mandi" name="bathrooms"></x-numberinput>
                 </div>
             </div>
         </div>
-        <div
-            class="mx-auto max-w-5xl w-full p-5 rounded-lg bg-frost-white flex flex-col gap-5 border border-slate-300">
+        <div class="mx-auto max-w-5xl w-full p-5 rounded-lg bg-frost-white flex flex-col gap-5 border border-slate-300">
             <h1 class="font-poppins font-semibold text-4xl">Fasilitas</h1>
             <!-- Internal Section -->
             <div class="flex flex-col gap-5">
@@ -131,8 +133,7 @@
                         class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 cursor-pointer">
                         Upload Foto/Video
                         <input type="file" id="dokumentasi" name="dokumentasi[]" multiple
-                            accept="image/*,video/*"
-                            class="hidden">
+                            accept="image/*,video/*" class="hidden">
                     </label>
                 </div>
             </div>
@@ -180,54 +181,54 @@
 </section>
 
 <script>
-document.getElementById('dokumentasi').addEventListener('change', function (event) {
-    const files = event.target.files;
-    let videoCount = 0;
-    let photoCount = 0;
+    document.getElementById('dokumentasi').addEventListener('change', function(event) {
+        const files = event.target.files;
+        let videoCount = 0;
+        let photoCount = 0;
 
-    // Loop melalui semua file yang dipilih
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+        // Loop melalui semua file yang dipilih
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
 
-        // Validasi tipe file
-        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
-            alert('Hanya file foto (JPEG, PNG, JPG, GIF) dan video (MP4, MOV) yang diizinkan.');
+            // Validasi tipe file
+            if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                alert('Hanya file foto (JPEG, PNG, JPG, GIF) dan video (MP4, MOV) yang diizinkan.');
+                resetInput(event.target);
+                return;
+            }
+
+            // Hitung jumlah video dan foto
+            if (file.type.startsWith('video/')) {
+                videoCount++;
+            } else if (file.type.startsWith('image/')) {
+                photoCount++;
+            }
+        }
+
+        // Validasi jumlah video
+        if (videoCount > 1) {
+            alert('Hanya 1 video yang diizinkan.');
             resetInput(event.target);
             return;
         }
 
-        // Hitung jumlah video dan foto
-        if (file.type.startsWith('video/')) {
-            videoCount++;
-        } else if (file.type.startsWith('image/')) {
-            photoCount++;
+        // Validasi jumlah foto
+        if (photoCount > 20) {
+            alert('Maksimal 20 foto yang diizinkan.');
+            resetInput(event.target);
+            return;
         }
+
+        // Jika semua validasi lolos
+        alert('File berhasil dipilih dan siap diupload.');
+    });
+
+    // Fungsi untuk mereset input file
+    function resetInput(inputElement) {
+        inputElement.value = ''; // Reset input
+        // Jika reset tidak berhasil, gunakan trik ini:
+        const clone = inputElement.cloneNode(true);
+        inputElement.parentNode.replaceChild(clone, inputElement);
+        clone.addEventListener('change', inputElement.onchange);
     }
-
-    // Validasi jumlah video
-    if (videoCount > 1) {
-        alert('Hanya 1 video yang diizinkan.');
-        resetInput(event.target);
-        return;
-    }
-
-    // Validasi jumlah foto
-    if (photoCount > 20) {
-        alert('Maksimal 20 foto yang diizinkan.');
-        resetInput(event.target);
-        return;
-    }
-
-    // Jika semua validasi lolos
-    alert('File berhasil dipilih dan siap diupload.');
-});
-
-// Fungsi untuk mereset input file
-function resetInput(inputElement) {
-    inputElement.value = ''; // Reset input
-    // Jika reset tidak berhasil, gunakan trik ini:
-    const clone = inputElement.cloneNode(true);
-    inputElement.parentNode.replaceChild(clone, inputElement);
-    clone.addEventListener('change', inputElement.onchange);
-}
 </script>
