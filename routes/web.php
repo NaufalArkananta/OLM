@@ -11,6 +11,7 @@ use App\Http\Controllers\newOwnerController;
 use App\Http\Controllers\ownerUserController;
 use App\Http\Controllers\propertiController;
 use App\Http\Controllers\validatorController;
+use App\Http\Controllers\WishlistController;
 
 Route::get('/', function () {
     return view('home');
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/admin/agen/prop/not-valid', [agenController::class, 'notValid'])->name('properti.list.not-valid');
     Route::get('/admin/agen/prop/selled', [agenController::class, 'third']);
 });
+
 Route::post('/property/create', [PropertiController::class, 'store'])->name('properties.store');
 
 Route::get("/admin/agen/notif", [AgenController::class, 'notif'])->name('agen.notif');
@@ -65,6 +67,13 @@ Route::middleware(['auth', 'role:validator'])->group(function () {
         Route::post('/reject-property', [validatorController::class, 'rejectProperty'])->name('reject.property');
 
     });
+});
+
+// route for user
+Route::middleware(['auth'])->group(function () {
+    Route::post('/wishlist/toggle/{property}', [WishlistController::class, 'toggle'])->middleware('auth');
+    Route::get('/properti', [propertiController::class, 'index']);
+    Route::get('/wishlist', [propertiController::class, 'wishlist']);
 });
 
 // route for api auth for admin
@@ -94,8 +103,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/properti', [propertiController::class, 'index']);
-Route::get('/wishlist', [propertiController::class, 'wishlist']);
 Route::get('/properti/{id}', [propertiController::class, 'show'])->name('properti.detail');
 
 Route::prefix('/admin/owner')->group(function () {

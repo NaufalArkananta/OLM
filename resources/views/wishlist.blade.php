@@ -17,24 +17,27 @@
       </div>
     </div>
     <div class="grid justify-start w-full grid-cols-1 gap-4 md:gap-6 lg:gap-8 md:grid-cols-2 lg:grid-cols-3">
-      @foreach ($data_property as $property)
+      @foreach ($data_property as $wishlist)
+        @php $property = $wishlist->property; @endphp
         @if ($count >= 2)
         @break
       @endif
       <div>
-        <div x-data="{ isOn: false }"
+        <div x-data="{ isOn: {{ in_array($property->id, $wishlistPropertyIds) ? 'true' : 'false' }} }"
           class="p-4 bg-frost-white rounded-[10px] border border-slate-300 relative w-full shadow-Shadow/Shadow 3">
-          <img src="{{ $property['image'] }}"
-            class="object-cover w-full h-[210px] rounded-[8px] border border-slate-300" alt="{{ $property['name'] }}">
+          <img src="{{ asset('storage/' . $property->media->first()->media_url) }}"
+            class="object-cover w-full h-[210px] rounded-[8px] border border-slate-300" alt="{{ $property->title }}">
           <div class="rounded-[8px] bg-customBlue-250 px-3 py-2 my-3 w-fit">
-            <p class="text-xl font-medium text-sky-400">{{ $property['type'] }}</p>
+            <p class="text-xl font-medium text-sky-400">{{ $property->category->name }}</p>
           </div>
           <div class="text-start">
             <h5 class="my-2 text-5xl font-semibold text-sky-600">{{ $property['price'] }}</h5>
-            <p class="text-3xl font-normal text-slate-400">{{ $property['name'] }}</p>
-            <p class="text-xl font-normal text-slate-400">{{ $property['location'] }}</p>
+            <p class="text-3xl font-normal text-slate-400">{{ $property->title }}</p>
+            <p class="text-xl font-normal text-slate-400">{{ $property->location }}</p>
           </div>
-          <button @click="isOn = !isOn" class="absolute p-2 rounded-md top-6 right-6 backdrop-blur-sm bg-white/30">
+          <button @click="isOn = !isOn" 
+          @click.prevent="toggleWishlist({{ $property->id }})"
+          class="absolute p-2 rounded-md top-6 right-6 backdrop-blur-sm bg-white/30">
             <svg x-show="!isOn" width="24" height="24" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -96,28 +99,41 @@
               </g>
             </svg>
           </button>
-          <div class="my-4 bg-slate-300 w-full h-0.5"></div>
-          <div class="flex items-center w-full gap-4">
-            <div class="w-[48px] h-[48px] overflow-hidden border rounded-full border-slate-300">
-              <img src="{{ $property['sales_pic'] }}" class="object-cover w-full h-full"
-                alt="{{ $property['sales_name'] }}">
-            </div>
-            <div>
-              <h6 class="text-3xl font-normal text-slate-950">{{ $property['sales_name'] }}</h6>
-              <p class="text-lg font-normal text-slate-400">Public Sales</p>
-            </div>
-          </div>
-          <button
-            class="flex items-center justify-center w-full gap-3 p-4 mt-6 text-white duration-300 bg-green-500 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-100">
-            <img src="{{ asset('img/WhatsApp.svg') }}" alt="whatsapp logo" class="size-[28px]">
-            <p class="text-xl font-medium">{{ $property['sales_phone'] }}</p>
-          </button>
+          @foreach ($property->sales as $sale)
+            <div class="my-4 bg-slate-300 w-full h-0.5"></div>
+              <div class="flex items-center w-full gap-4">
+                <div class="w-[48px] h-[48px] overflow-hidden border rounded-full border-slate-300">
+                  <img src="{{ $property['sales_pic'] }}" class="object-cover w-full h-full"
+                    alt="{{ $sale->agent->name }}">
+                </div>
+                <div>
+                  <h6 class="text-3xl font-normal text-slate-950">{{ $sale->agent->name ?? 'Tidak Ada Sales' }}</h6>
+                  <p class="text-lg font-normal text-slate-400">Public Sales</p>
+                </div>
+              </div>
+              <button
+              class="flex items-center justify-center w-full gap-3 p-4 mt-6 text-white duration-300 bg-green-500 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-100">
+              <img src="{{ asset('img/WhatsApp.svg') }}" alt="whatsapp logo" class="size-[28px]">
+              <p class="text-xl font-medium">{{ $sale->agent->number }}</p>
+            </button>
         </div>
       </div>
       @php
         $count++;
       @endphp
     @endforeach
+    @endforeach
   </div>
 </section>
 </x-layout-container>
+<script>
+    function toggleWishlist(propertyId) {
+        fetch(`/wishlist/toggle/${propertyId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            }
+        });
+    }
+</script>

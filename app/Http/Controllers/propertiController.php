@@ -12,28 +12,34 @@ use App\Models\DetailProperty;
 use App\Models\PropertyFacilities;
 use Illuminate\Support\Facades\DB;
 use App\Models\PropertyCertificates;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Validator;
 
 class propertiController extends Controller
 {
-    public function index()
-    {
-        $data_property = Property::whereHas('sales', function ($query) {
-            $query->where('status', 'verified');
-        })
-        ->whereHas('validator', function ($query) {
-            $query->where('status', 'approved');
-        })
-        ->with([
-            'category',
-            'media',
-            'certificate',
-            'details',
-            'sales.agent'
-        ])->get();
-    
-    return view('properti', compact('data_property'));
-    }
+public function index()
+{
+    $userId = session('user_id'); // ambil id user dari session
+
+    $data_property = Property::whereHas('sales', function ($query) {
+        $query->where('status', 'verified');
+    })
+    ->whereHas('validator', function ($query) {
+        $query->where('status', 'approved');
+    })
+    ->with([
+        'category',
+        'media',
+        'certificate',
+        'details',
+        'sales.agent'
+    ])->get();
+
+    // Ambil wishlist property_id milik user
+    $wishlistPropertyIds = Wishlist::where('user_id', $userId)->pluck('property_id')->toArray();
+
+    return view('properti', compact('data_property', 'wishlistPropertyIds'));
+}
 
     public function create()
     {
@@ -308,4 +314,60 @@ class propertiController extends Controller
 
         return redirect()->route('properti.index')->with('success', 'Property deleted successfully!');
     }
+
+    public function wishlist()
+{
+    $userId = session('user_id');
+
+    $data_property = Wishlist::where('user_id', $userId)
+    ->whereHas('property.sales', function ($query) {
+        $query->where('status', 'verified');
+    })
+    ->whereHas('property.validator', function ($query) {
+        $query->where('status', 'approved');
+    })
+    ->with([
+        'property.category',
+        'property.media',
+        'property.certificate',
+        'property.details',
+        'property.sales.agent'
+    ])
+    ->get();
+
+    $wishlistPropertyIds = Wishlist::where('user_id', $userId)->pluck('property_id')->toArray();
+
+    // Kirim data wishlist ke view
+    return view('wishlist', compact('data_property', 'wishlistPropertyIds'));
+
+    // $userId = session('user_id'); // Ambil user dari session
+
+    // $wishlists = Wishlist::with([
+    //     'property.category',
+    //     'property.media',
+    //     'property.certificate',
+    //     'property.details',
+    //     'property.sales.agent'
+    // ])
+    // ->where('user_id', $userId)
+    // ->get();
+
+    // // Map ke bentuk array yang bisa langsung dipakai di view
+    // $data_property = $wishlists->map(function ($wishlist) {
+    //     $property = $wishlist->property;
+
+    //     return [
+    //         'image' => $property->media[0]->media_url ?? 'img/default.jpg',
+    //         'type' => $property->category->name ?? '-',
+    //         'price' => 'Rp ' . number_format($property->price, 0, ',', '.'),
+    //         'title' => $property->title,
+    //         'location' => $property->location,
+    //         'sales_name' => $property->sales->agent->name ?? '-',
+    //         'sales_phone' => $property->sales->agent->phone ?? '-',
+    //         'sales_pic' => $property->sales->agent->profile_picture ?? 'img/default-profile.jpg',
+    //     ];
+    // });
+
+    // return view('wishlist', compact('data_property'));
+}
 }

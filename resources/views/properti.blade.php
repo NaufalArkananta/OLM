@@ -125,7 +125,7 @@
             </div>
             <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($data_property as $property)
-                    <div x-data="{ isOn: false }"
+                    <div x-data="{ isOn: {{ in_array($property->id, $wishlistPropertyIds) ? 'true' : 'false' }} }"
                         class="p-4 bg-frost-white rounded-[10px] border border-slate-300 relative w-full shadow-Shadow/Shadow 3">
                         <img src="{{ asset('storage/' . $property->media->first()->media_url) }}"
                             class="object-cover w-full h-[210px] rounded-[8px] border border-slate-300"
@@ -139,6 +139,7 @@
                             <p class="text-xl font-normal text-slate-400">{{ $property->location }}</p>
                         </div>
                         <button @click="isOn = !isOn"
+                        @click.prevent="toggleWishlist({{ $property->id }})"
                             class="absolute p-2 rounded-md top-6 right-6 backdrop-blur-sm bg-white/30">
                             <svg x-show="!isOn" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -222,8 +223,8 @@
                         class="flex items-center justify-center w-full gap-3 p-4 mt-6 text-white duration-300 bg-green-500 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-100">
                         <img src="{{ asset('img/WhatsApp.svg') }}" alt="whatsapp logo" class="size-[28px]">
                         <p class="text-xl font-medium">{{ $sale->agent->number }}</p>
-                    </button>
-                </div>
+                        </button>
+                    </div>
                 @endforeach
                 @endforeach
             </div>
@@ -234,3 +235,14 @@
         </div>
     </section>
 </x-layout-container>
+<script>
+    function toggleWishlist(propertyId) {
+        fetch(`/wishlist/toggle/${propertyId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            }
+        });
+    }
+</script>
